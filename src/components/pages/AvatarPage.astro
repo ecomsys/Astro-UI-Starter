@@ -1,0 +1,41 @@
+---
+import { Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup, AvatarGroupCount } from "../ui/avatar";
+---
+
+<!-- Одиночные аватары разных размеров -->
+<div class="flex items-end gap-4">
+    <Avatar size="sm">
+        <AvatarImage src="https://i.pravatar.cc/150?img=1" alt="User 1" />
+        <AvatarFallback>ИВ</AvatarFallback>
+    </Avatar>
+
+    <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/150?img=2" alt="User 2" />
+        <AvatarFallback>ПС</AvatarFallback>
+    </Avatar>
+
+    <Avatar size="lg">
+        <AvatarImage src="https://i.pravatar.cc/150?img=3" alt="User 3" />
+        <AvatarFallback>АН</AvatarFallback>
+        <!-- Добавляем зеленый бейдж "онлайн" -->
+        <AvatarBadge class="bg-green-500" />
+    </Avatar>
+</div>
+
+<!-- Группа аватарок (наложение) -->
+<AvatarGroup>
+    <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/150?img=4" alt="User 4" />
+        <AvatarFallback>Ю1</AvatarFallback>
+    </Avatar>
+    <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/150?img=5" alt="User 5" />
+        <AvatarFallback>Ю2</AvatarFallback>
+    </Avatar>
+    <Avatar>
+        <AvatarImage src="https://i.pravatar.cc/150?img=6" alt="User 6" />
+        <AvatarFallback>Ю3</AvatarFallback>
+    </Avatar>
+    <!-- Счетчик оставшихся -->
+    <AvatarGroupCount>+5</AvatarGroupCount>
+</AvatarGroup>

@@ -1,0 +1,36 @@
+---
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton, InputGroupText } from "../ui/input-group";
+import { Search, Eye, EyeOff } from "@lucide/astro";
+---
+
+<!-- 1. Инпут с иконкой поиска слева -->
+<InputGroup>
+    <InputGroupAddon align="inline-start">
+        <Search class="size-4" />
+    </InputGroupAddon>
+    <InputGroupInput placeholder="Поиск по сайту..." />
+</InputGroup>
+
+<!-- 2. Инпут с текстом слева и кнопкой справа -->
+<InputGroup>
+    <InputGroupAddon align="inline-start">
+        <InputGroupText>https://</InputGroupText>
+    </InputGroupAddon>
+    <InputGroupInput placeholder="yoursite.com" />
+    <InputGroupAddon align="inline-end">
+        <InputGroupButton size="icon-xs">
+            <Eye class="size-4" />
+        </InputGroupButton>
+    </InputGroupAddon>
+</InputGroup>
+
+<!-- 3. Инпут пароля с переключателем видимости (через Alpine) -->
+<InputGroup x-data="{ visible: false }">
+    <InputGroupInput :type="visible ? 'text' : 'password'" placeholder="Введите пароль" />
+    <InputGroupAddon align="inline-end">
+        <InputGroupButton size="icon-xs" @click="visible = !visible">
+            <Eye x-show="!visible" class="size-4" />
+            <EyeOff x-show="visible" x-cloak class="size-4" />
+        </InputGroupButton>
+    </InputGroupAddon>
+</InputGroup>

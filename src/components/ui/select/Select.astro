@@ -1,0 +1,32 @@
+---
+export interface Props {
+    defaultValue?: string;
+    defaultLabel?: string;
+    side?: "top" | "bottom" | "left" | "right";
+    align?: "start" | "center" | "end";
+    sideOffset?: number;
+    class?: string;
+    [key: string]: any;
+}
+
+const {
+    defaultValue = "",
+    defaultLabel = "Выберите...",
+    side = "bottom",
+    align = "start",
+    sideOffset = 4,
+    class: className,
+    ...rest
+} = Astro.props;
+---
+
+<div
+    x-data={`select('${defaultValue}', ${JSON.stringify(defaultLabel)}, '${side}', '${align}', ${sideOffset})`}
+    x-on:keydown.escape.window="hide()"
+    x-on:scroll.window="forceHide()"
+    class={className}
+    data-slot="select"
+    {...rest}
+>
+    <slot />
+</div>

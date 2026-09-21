@@ -1,0 +1,20 @@
+---
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent } from "../ui/empty";
+import Button from "../ui/Button.astro";
+import { SearchX } from "@lucide/astro";
+---
+
+<Empty>
+    <EmptyHeader>
+        <EmptyMedia variant="icon">
+            <SearchX />
+        </EmptyMedia>
+        <EmptyTitle>Результаты не найдены</EmptyTitle>
+        <EmptyDescription>
+            Мы не смогли найти то, что вы искали. Попробуйте изменить запрос или очистить фильтры.
+        </EmptyDescription>
+    </EmptyHeader>
+    <EmptyContent>
+        <Button>Очистить фильтры</Button>
+    </EmptyContent>
+</Empty>

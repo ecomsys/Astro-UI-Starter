@@ -1,0 +1,69 @@
+---
+import {
+    ContextMenu,
+    ContextMenuTrigger,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuSeparator,
+    ContextMenuLabel,
+    ContextMenuShortcut,
+    ContextMenuSub,
+    ContextMenuSubTrigger,
+    ContextMenuSubContent,
+    ContextMenuCheckboxItem,
+    ContextMenuRadioGroup,
+    ContextMenuRadioItem,
+} from "../ui/context-menu";
+---
+
+<ContextMenu>
+    <ContextMenuTrigger
+        class="flex h-40 w-full max-w-md items-center justify-center rounded-xl border border-dashed text-sm text-muted-foreground"
+    >
+        Правый клик (Right Click) здесь!
+    </ContextMenuTrigger>
+
+    <ContextMenuContent class="w-64">
+        <ContextMenuItem>
+            Назад
+            <ContextMenuShortcut>Alt+Left</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem disabled>
+            Вперед
+            <ContextMenuShortcut>Alt+Right</ContextMenuShortcut>
+        </ContextMenuItem>
+
+        <ContextMenuSeparator />
+
+        <!-- Подменю -->
+        <ContextMenuSub>
+            <ContextMenuSubTrigger>Еще опции</ContextMenuSubTrigger>
+            <ContextMenuSubContent>
+                <ContextMenuItem>Экспорт</ContextMenuItem>
+                <ContextMenuItem>Импорт</ContextMenuItem>
+            </ContextMenuSubContent>
+        </ContextMenuSub>
+
+        <ContextMenuSeparator />
+
+        <!-- Чекбоксы -->
+        <ContextMenuCheckboxItem>Показывать сетку</ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem>Авто-сохранение</ContextMenuCheckboxItem>
+
+        <ContextMenuSeparator />
+
+        <!-- Радио-кнопки -->
+        <ContextMenuRadioGroup modelValue="list">
+            <ContextMenuLabel>Вид</ContextMenuLabel>
+            <ContextMenuRadioItem value="list">Список</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="grid">Сетка</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
+
+        <ContextMenuSeparator />
+
+        <ContextMenuItem variant="destructive">
+            Удалить
+            <ContextMenuShortcut>Del</ContextMenuShortcut>
+        </ContextMenuItem>
+    </ContextMenuContent>
+</ContextMenu>

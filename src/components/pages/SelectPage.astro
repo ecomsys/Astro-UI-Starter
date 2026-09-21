@@ -1,0 +1,106 @@
+---
+import {
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem,
+    SelectGroup,
+    SelectLabel,
+    SelectSeparator,
+} from "../ui/select";
+
+// Функция генерирует HTML-строку с флагом.
+const flag = (code: string) =>
+    `<span class="fi fi-${code} inline-block w-4 h-3 rounded-[0.125rem] align-middle"></span>`;
+
+// Строки с флагами
+const ruLabel = `${flag("ru")} Россия`;
+const byLabel = `${flag("by")} Беларусь`;
+const kzLabel = `${flag("kz")} Казахстан`;
+const usLabel = `${flag("us")} США`;
+---
+
+<!-- 1. Селект с Флагами (Предвыбранный) -->
+<div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Страна (Флаги + HTML)</span>
+    <Select defaultValue="ru" defaultLabel={ruLabel}>
+        <SelectTrigger class="w-48">
+            <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+            <SelectItem value="ru" label={ruLabel}>
+                <Fragment set:html={flag("ru")} />
+                <span>Россия</span>
+            </SelectItem>
+            <SelectItem value="by" label={byLabel}>
+                <Fragment set:html={flag("by")} />
+                <span>Беларусь</span>
+            </SelectItem>
+            <SelectItem value="kz" label={kzLabel}>
+                <Fragment set:html={flag("kz")} />
+                <span>Казахстан</span>
+            </SelectItem>
+            <SelectItem value="us" label={usLabel}>
+                <Fragment set:html={flag("us")} />
+                <span>США</span>
+            </SelectItem>
+        </SelectContent>
+    </Select>
+</div>
+
+<!-- 2. Селект с Группировкой и Разделителем (SelectGroup, SelectLabel, SelectSeparator) -->
+<div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Продукты (Группы)</span>
+    <Select defaultLabel="Выберите продукт...">
+        <SelectTrigger class="w-56">
+            <SelectValue placeholder="Выберите продукт..." />
+        </SelectTrigger>
+        <SelectContent>
+            <SelectGroup>
+                <SelectLabel>Фрукты</SelectLabel>
+                <SelectItem value="apple" label="🍎 Яблоко">🍎 Яблоко</SelectItem>
+                <SelectItem value="banana" label="🍌 Банан">🍌 Банан</SelectItem>
+                <SelectItem value="orange" label="🍊 Апельсин">🍊 Апельсин</SelectItem>
+            </SelectGroup>
+
+            <SelectSeparator />
+
+            <SelectGroup>
+                <SelectLabel>Овощи</SelectLabel>
+                <SelectItem value="carrot" label="🥕 Морковь">🥕 Морковь</SelectItem>
+                <SelectItem value="potato" label="🥔 Картошка">🥔 Картошка</SelectItem>
+            </SelectGroup>
+        </SelectContent>
+    </Select>
+</div>
+
+<!-- 3. Маленький размер (size="sm") с заблокированным пунктом (disabled) -->
+<div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Статус (size=sm, disabled)</span>
+    <Select defaultValue="active" defaultLabel="✅ Активен">
+        <SelectTrigger size="sm" class="w-50">
+            <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+            <SelectItem value="active" label="✅ Активен">✅ Активен</SelectItem>
+            <SelectItem value="pending" label="⏳ В ожидании">⏳ В ожидании</SelectItem>
+            <SelectItem value="archived" label="📦 В архиве" disabled> 📦 В архиве (недоступно) </SelectItem>
+        </SelectContent>
+    </Select>
+</div>
+
+<!-- 4. Пустой селект с плейсхолдером (w-full) -->
+<div class="flex flex-col gap-2 w-72 max-w-full">
+    <span class="text-sm text-muted-foreground">Менеджер (w-full)</span>
+    <Select defaultLabel="">
+        <SelectTrigger class="w-full">
+            <SelectValue placeholder="Выберите менеджера..." />
+        </SelectTrigger>
+        <SelectContent>
+            <SelectItem value="1" label="Иван Иванов">Иван Иванов</SelectItem>
+            <SelectItem value="2" label="Петр Петров">Петр Петров</SelectItem>
+            <SelectItem value="3" label="Анна Смирнова">Анна Смирнова</SelectItem>
+        </SelectContent>
+    </Select>
+</div>

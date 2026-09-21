@@ -1,0 +1,28 @@
+---
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "../ui/accordion";
+---
+
+<div class="w-96 max-w-full">
+    <Accordion>
+        <AccordionItem>
+            <AccordionTrigger>Это сложно настраивать?</AccordionTrigger>
+            <AccordionContent>
+                <p>Нет, вообще не сложно. Astro и Alpine.js делают всю работу за вас.</p>
+            </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem>
+            <AccordionTrigger>А как с анимацией?</AccordionTrigger>
+            <AccordionContent>
+                <p>Анимация выезжает плавно благодаря плагину @alpinejs/collapse. Никаких рывков!</p>
+            </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem>
+            <AccordionTrigger>А если длинный текст?</AccordionTrigger>
+            <AccordionContent>
+                <p>Контейнер растянется автоматически. Можешь писать хоть целый параграф текста, верстка не поедет.</p>
+            </AccordionContent>
+        </AccordionItem>
+    </Accordion>
+</div>

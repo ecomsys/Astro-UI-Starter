@@ -1,0 +1,50 @@
+---
+import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from "../ui/table";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import Checkbox from "../ui/Checkbox.astro";
+---
+
+<Card class="w-[25rem] max-w-full">
+    <CardHeader>
+        <CardTitle>Список сотрудников</CardTitle>
+    </CardHeader>
+    <CardContent>
+        <Table>
+            <TableCaption>Список активных сотрудников компании.</TableCaption>
+            <TableHeader>
+                <TableRow>
+                    <TableHead><Checkbox /></TableHead>
+                    <TableHead>Имя</TableHead>
+                    <TableHead>Должность</TableHead>
+                    <TableHead class="text-right">Зарплата</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                <TableRow>
+                    <TableCell><Checkbox /></TableCell>
+                    <TableCell>Иван Иванов</TableCell>
+                    <TableCell>Frontend Developer</TableCell>
+                    <TableCell class="text-right">$5,000</TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell><Checkbox checked /></TableCell>
+                    <TableCell>Петр Петров</TableCell>
+                    <TableCell>Designer</TableCell>
+                    <TableCell class="text-right">$4,000</TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell><Checkbox /></TableCell>
+                    <TableCell>Анна Смирнова</TableCell>
+                    <TableCell>Project Manager</TableCell>
+                    <TableCell class="text-right">$6,000</TableCell>
+                </TableRow>
+            </TableBody>
+            <TableFooter>
+                <TableRow>
+                    <TableCell colspan="3">Итого</TableCell>
+                    <TableCell class="text-right">$15,000</TableCell>
+                </TableRow>
+            </TableFooter>
+        </Table>
+    </CardContent>
+</Card>

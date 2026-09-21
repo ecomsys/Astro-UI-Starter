@@ -1,0 +1,49 @@
+---
+import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogFooter,
+    DialogTitle,
+    DialogDescription,
+    DialogClose,
+} from "../ui/dialog";
+import Button from "../ui/Button.astro";
+import { Trash2 } from "@lucide/astro";
+---
+
+<Dialog>
+    <DialogTrigger
+        class="inline-flex items-center justify-center gap-2 h-9 px-4 py-2 rounded-md text-sm font-medium bg-destructive/10 text-destructive hover:bg-destructive/20"
+    >
+        <Trash2 class="size-4" />
+        Удалить проект
+    </DialogTrigger>
+
+    <DialogContent>
+        <DialogHeader>
+            <DialogTitle>Вы абсолютно уверены?</DialogTitle>
+            <DialogDescription>
+                Это действие нельзя отменить. Проект и все связанные с ним данные будут навсегда удалены с наших
+                серверов.
+            </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter>
+            <DialogClose
+                class="inline-flex items-center justify-center gap-2 h-9 px-4 py-2 rounded-md text-sm font-medium border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground"
+            >
+                Отмена
+            </DialogClose>
+            <Button
+                x-on:click="console.log('Отправляю запрос на сервер...');
+                            alert('Проект удален!');                            
+                            open = false;"
+                variant="destructive"
+            >
+                <span>Да, удалить</span>
+            </Button>
+        </DialogFooter>
+    </DialogContent>
+</Dialog>

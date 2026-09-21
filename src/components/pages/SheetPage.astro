@@ -1,0 +1,52 @@
+---
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "../ui/sheet";
+import Button from "../ui/Button.astro";
+import { Menu, SlidersHorizontal } from "@lucide/astro";
+---
+
+<!-- Панель справа (Меню) -->
+<Sheet>
+    <SheetTrigger>
+        <Button variant="outline">
+            <Menu class="size-4" />
+            Открыть меню
+        </Button>
+    </SheetTrigger>
+
+    <SheetContent side="right">
+        <SheetHeader>
+            <SheetTitle>Меню навигации</SheetTitle>
+            <SheetDescription>Выберите раздел сайта.</SheetDescription>
+        </SheetHeader>
+
+        <div class="px-4 flex flex-col gap-2">
+            <a href="#" class="block px-2 py-1 rounded-md hover:bg-accent">Главная</a>
+            <a href="#" class="block px-2 py-1 rounded-md hover:bg-accent">О нас</a>
+            <a href="#" class="block px-2 py-1 rounded-md hover:bg-accent">Контакты</a>
+        </div>
+
+        <SheetFooter>
+            <Button class="w-full">Войти</Button>
+        </SheetFooter>
+    </SheetContent>
+</Sheet>
+
+<!-- Панель слева (Фильтры) -->
+<Sheet>
+    <SheetTrigger>
+        <Button variant="secondary">
+            <SlidersHorizontal class="size-4" />
+            Фильтры
+        </Button>
+    </SheetTrigger>
+
+    <SheetContent side="left">
+        <SheetHeader>
+            <SheetTitle>Настройки фильтрации</SheetTitle>
+            <SheetDescription>Подберите товары по параметрам.</SheetDescription>
+        </SheetHeader>
+        <div class="px-4">
+            <p class="text-sm text-muted-foreground">Тут будут ваши чекбоксы и слайдеры.</p>
+        </div>
+    </SheetContent>
+</Sheet>

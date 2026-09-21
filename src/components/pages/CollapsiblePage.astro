@@ -1,0 +1,30 @@
+---
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "../ui/collapsible";
+import Button from "../ui/Button.astro";
+import { ChevronDown, ChevronUp } from "@lucide/astro";
+---
+
+<Collapsible class="w-full space-y-2">
+    <div class="flex items-center justify-between">
+        <h4 class="text-sm font-semibold">Детали заказа #12345</h4>
+        <CollapsibleTrigger asChild>
+            <!-- Обернем в Button, чтобы была красивая кнопка -->
+            <Button variant="ghost" size="sm">
+                Посмотреть
+                <ChevronDown class="size-4 transition-transform" x-show="!open" />
+                <ChevronUp class="size-4 transition-transform" x-show="open" x-cloak />
+            </Button>
+        </CollapsibleTrigger>
+    </div>
+
+    <div class="text-sm text-muted-foreground">Заказ оформлен 12 октября. Ожидается доставка 15 октября.</div>
+
+    <CollapsibleContent class="border rounded-md p-4 space-y-2">
+        <p class="text-sm font-medium">Состав заказа:</p>
+        <ul class="text-sm text-muted-foreground list-disc pl-5">
+            <li>Футболка черная (2 шт)</li>
+            <li>Кроссовки 42 размера (1 пара)</li>
+            <li>Шапка бини (1 шт)</li>
+        </ul>
+    </CollapsibleContent>
+</Collapsible>

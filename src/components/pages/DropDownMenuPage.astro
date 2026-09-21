@@ -1,0 +1,92 @@
+---
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuCheckboxItem,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSub,
+    DropdownMenuSubTrigger,
+    DropdownMenuSubContent,
+    DropdownMenuItem,
+} from "../ui/dropdown-menu";
+import Button from "../ui/Button.astro";
+import { User, Settings, LogOut, Monitor, Moon, Sun } from "@lucide/astro";
+---
+
+<div class="flex gap-6">
+    <DropdownMenu>
+        <DropdownMenuTrigger>
+            <Button>Настройки </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent class="w-56">
+            <DropdownMenuLabel>Мой аккаунт</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            <!-- Подменю (наведи курсор на "Внешний вид") -->
+            <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                    <Monitor class="size-4" />
+                    Внешний вид
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                    <DropdownMenuItem>
+                        <Sun class="size-4" /> Светлая
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <Moon class="size-4" /> Темная
+                    </DropdownMenuItem>
+                </DropdownMenuSubContent>
+            </DropdownMenuSub>
+
+            <DropdownMenuSeparator />
+
+            <!-- Радио-кнопки (выбор только одного варианта) -->
+            <DropdownMenuRadioGroup modelValue="admin">
+                <DropdownMenuLabel inset>Роль</DropdownMenuLabel>
+                <DropdownMenuRadioItem value="admin">Администратор</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="user">Пользователь</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="guest">Гость</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+
+            <DropdownMenuSeparator />
+
+            <!-- Чекбоксы (множественный выбор, меню не закрывается) -->
+            <DropdownMenuCheckboxItem> Показывать email </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem> Получать уведомления </DropdownMenuCheckboxItem>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem variant="destructive">
+                <LogOut class="size-4" />
+                Выйти
+                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+
+    <!-- Меню выедет снизу, прижавшись к левому краю кнопки (по умолчанию) -->
+    <DropdownMenu>
+        <DropdownMenuTrigger>
+            <Button>Меню </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent class="w-56">
+            <DropdownMenuItem>Профиль</DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+
+    <!-- Меню выедет снизу, но прижмется к правому краю (align="end") -->
+    <DropdownMenu side="bottom" align="start" sideOffset={0} trigger="hover">
+        <DropdownMenuTrigger>
+            <Button>Меню справа </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+            <DropdownMenuItem>Настройки</DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+</div>

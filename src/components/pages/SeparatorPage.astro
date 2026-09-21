@@ -1,0 +1,20 @@
+---
+import Separator from "../ui/Separator.astro";
+import Badge from "../ui/Badge.astro";
+---
+
+<!-- Горизонтальный разделитель -->
+<div class="w-96 max-w-full flex flex-col gap-4">
+    <div>Верхний блок текста</div>
+    <Separator />
+    <div>Нижний блок текста</div>
+</div>
+
+<!-- Вертикальный разделитель (для меню или колонок) -->
+<div class="flex h-10 items-center gap-4">
+    <span>Главная</span>
+    <Separator orientation="vertical" />
+    <span>О нас</span>
+    <Separator orientation="vertical" />
+    <span>Контакты</span>
+</div>

@@ -1,0 +1,26 @@
+---
+import { Alert, AlertTitle, AlertDescription, AlertAction } from "../ui/alert";
+import Button from "../ui/Button.astro";
+import { Terminal, AlertTriangle, X } from "@lucide/astro";
+---
+
+<div class="flex flex-col gap-2">
+    <!-- Обычный Alert с иконкой -->
+    <Alert class="">
+        <Terminal class="size-4" />
+        <AlertTitle>Внимание!</AlertTitle>
+        <AlertDescription> Вы забыли сохранить изменения. Нажмите Ctrl+S, чтобы не потерять данные. </AlertDescription>
+    </Alert>
+
+    <!-- Destructive Alert с кнопкой закрытия -->
+    <Alert variant="destructive">
+        <AlertTriangle class="size-4" />
+        <AlertTitle>Ошибка авторизации</AlertTitle>
+        <AlertDescription> Ваш токен доступа истек. Пожалуйста, войдите в систему заново. </AlertDescription>
+        <AlertAction x-on:click="open = false">
+            <Button variant="outline" size="icon-sm">
+                <X class="size-4" />
+            </Button>
+        </AlertAction>
+    </Alert>
+</div>

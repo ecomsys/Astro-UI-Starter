@@ -1,0 +1,29 @@
+---
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+---
+
+<!-- Вариант 1: Обычные вкладки (default) -->
+<div class="w-96 max-w-full">
+    <Tabs defaultValue="account">
+        <TabsList>
+            <TabsTrigger value="account">Аккаунт</TabsTrigger>
+            <TabsTrigger value="password">Пароль</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account"> Настройки аккаунта. Меняй имя, почту и фото профиля. </TabsContent>
+        <TabsContent value="password"> Смени пароль, чтобы сделать аккаунт безопаснее. </TabsContent>
+    </Tabs>
+</div>
+
+<!-- Вариант 2: Подчеркивание (line) -->
+<div class="w-96 max-w-full">
+    <Tabs defaultValue="overview">
+        <TabsList variant="line">
+            <TabsTrigger value="overview">Обзор</TabsTrigger>
+            <TabsTrigger value="analytics">Аналитика</TabsTrigger>
+            <TabsTrigger value="settings">Настройки</TabsTrigger>
+        </TabsList>
+        <TabsContent value="overview"> Общая информация по проекту. </TabsContent>
+        <TabsContent value="analytics"> Графики и цифры. </TabsContent>
+        <TabsContent value="settings"> Глубокие настройки проекта. </TabsContent>
+    </Tabs>
+</div>

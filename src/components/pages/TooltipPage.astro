@@ -1,0 +1,47 @@
+---
+import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
+import Button from "../ui/Button.astro";
+import { Info, Settings, Trash2, CornerUpLeft } from "@lucide/astro";
+---
+
+<!-- Тултип сверху (по умолчанию) -->
+<div class="flex gap-4 py-5">
+    <Tooltip>
+        <TooltipTrigger>
+            <Button variant="outline" size="icon">
+                <Info class="size-4" />
+            </Button>
+        </TooltipTrigger>
+        <TooltipContent> Информация о проекте </TooltipContent>
+    </Tooltip>
+
+    <!-- Тултип снизу -->
+    <Tooltip side="bottom">
+        <TooltipTrigger>
+            <Button variant="outline" size="icon">
+                <Settings class="size-4" />
+            </Button>
+        </TooltipTrigger>
+        <TooltipContent> Настройки системы </TooltipContent>
+    </Tooltip>
+
+    <!-- Тултип слева -->
+    <Tooltip side="left" :delay="200">
+        <TooltipTrigger>
+            <Button variant="destructive" size="icon">
+                <Trash2 class="size-4" />
+            </Button>
+        </TooltipTrigger>
+        <TooltipContent> Удалить навсегда </TooltipContent>
+    </Tooltip>
+
+    <!-- Тултип справа -->
+    <Tooltip side="right">
+        <TooltipTrigger>
+            <Button variant="ghost" size="icon">
+                <CornerUpLeft class="size-4" />
+            </Button>
+        </TooltipTrigger>
+        <TooltipContent> Вернуться назад </TooltipContent>
+    </Tooltip>
+</div>

@@ -1,0 +1,11 @@
+---
+export interface Props {
+    class?: string;
+    [key: string]: any;
+}
+const { class: className, ...rest } = Astro.props;
+---
+
+<div x-data="{ open: false }" data-slot="collapsible" class={className} {...rest}>
+    <slot />
+</div>

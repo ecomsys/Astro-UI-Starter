@@ -1,0 +1,26 @@
+---
+import { cn } from "../../lib/utils";
+
+export interface Props {
+    orientation?: "horizontal" | "vertical";
+    class?: string;
+    [key: string]: any;
+}
+
+const { orientation = "horizontal", class: className, ...rest } = Astro.props;
+
+const baseClasses =
+    "shrink-0 bg-border data-horizontal:h-[0.0625rem] data-horizontal:w-full data-vertical:w-[0.0625rem] data-vertical:self-stretch";
+const computedClasses = cn(baseClasses, className);
+---
+
+<div
+    data-slot="separator"
+    role="separator"
+    aria-orientation={orientation}
+    data-horizontal={orientation === "horizontal" ? "" : undefined}
+    data-vertical={orientation === "vertical" ? "" : undefined}
+    class={computedClasses}
+    {...rest}
+>
+</div>

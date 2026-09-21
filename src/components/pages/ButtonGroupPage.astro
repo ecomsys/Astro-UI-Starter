@@ -1,0 +1,41 @@
+---
+import { ButtonGroup, ButtonGroupText, ButtonGroupSeparator } from "../ui/button-group";
+import Button from "../ui/Button.astro";
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight } from "@lucide/astro";
+---
+
+<!-- 1. Горизонтальная группа (Панель кнопок) -->
+<div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Горизонтальная панель:</span>
+    <ButtonGroup>
+        <Button variant="outline" size="icon"><Bold /></Button>
+        <Button variant="outline" size="icon"><Italic /></Button>
+        <Button variant="outline" size="icon"><Underline /></Button>
+
+        <ButtonGroupSeparator />
+
+        <Button variant="outline" size="icon"><AlignLeft /></Button>
+        <Button variant="outline" size="icon"><AlignCenter /></Button>
+        <Button variant="outline" size="icon"><AlignRight /></Button>
+    </ButtonGroup>
+</div>
+
+<!-- 2. Горизонтальная группа с текстом (Инпут для ссылки) -->
+<div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">С текстом:</span>
+    <ButtonGroup>
+        <ButtonGroupText>https://</ButtonGroupText>
+        <Button variant="outline" class="flex-1">Введите адрес сайта</Button>
+        <Button>Перейти</Button>
+    </ButtonGroup>
+</div>
+
+<!-- 3. Вертикальная группа -->
+<div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Вертикальная панель:</span>
+    <ButtonGroup orientation="vertical">
+        <Button variant="outline" size="icon"><Bold /></Button>
+        <Button variant="outline" size="icon"><Italic /></Button>
+        <Button variant="outline" size="icon"><Underline /></Button>
+    </ButtonGroup>
+</div>

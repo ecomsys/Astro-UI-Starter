@@ -1,0 +1,46 @@
+---
+import { cn } from "../../../lib/utils";
+
+export interface Props {
+    orientation?: "vertical" | "horizontal";
+    hover?: boolean;
+    class?: string;
+}
+
+const { orientation = "vertical", hover = false, class: className } = Astro.props;
+
+const containerClasses =
+    orientation === "vertical"
+        ? "absolute right-0 top-0 bottom-0 flex w-2 flex-col"
+        : "absolute left-0 right-0 bottom-0 flex h-2 flex-row";
+
+const thumbClasses = orientation === "vertical" ? "w-full cursor-pointer" : "h-full cursor-pointer";
+
+// ХИТРОСТЬ: Собираем строку для Alpine здесь.
+// Астро передаст её как текст, и не будет пытаться вычислить thumbHeight на сервере!
+const alpineStyleExpr =
+    orientation === "vertical"
+        ? "`height: ${thumbHeight}%; top: ${thumbTop}%`"
+        : "`width: ${thumbWidth}%; left: ${thumbLeft}%`";
+---
+
+<div
+    x-show={orientation === "vertical" ? "thumbHeight > 0" : "thumbWidth > 0"}
+    x-cloak
+    class={cn(
+        "touch-none select-none transition-opacity duration-200",
+        containerClasses,
+        hover ? "opacity-0 group-hover:opacity-100" : "opacity-100",
+        className,
+    )}
+    data-slot="scroll-area-scrollbar"
+>
+    <div
+        @mousedown={orientation === "vertical" ? "startDragV($event)" : "startDragH($event)"}
+        @touchstart={orientation === "vertical" ? "startDragV($event)" : "startDragH($event)"}
+        x-bind:style={alpineStyleExpr}
+        class={cn("relative rounded-full bg-border hover:bg-primary/20 transition-colors", thumbClasses)}
+        data-slot="scroll-area-thumb"
+    >
+    </div>
+</div>

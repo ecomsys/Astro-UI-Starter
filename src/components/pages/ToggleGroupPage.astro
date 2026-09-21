@@ -1,0 +1,72 @@
+---
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { Tooltip, TooltipTrigger, TooltipContent } from "../ui/tooltip";
+import { AlignLeft, AlignCenter, AlignRight, Bold, Italic, Underline } from "@lucide/astro";
+---
+
+<!-- 1. Одиночный выбор (type="single") с Тултипами -->
+<div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Выравнивание текста:</span>
+    <ToggleGroup type="single" defaultValue="left" variant="outline" spacing={2} class="bg-card p-1 rounded-lg border">
+        <!-- Оборачиваем кнопку в Tooltip -->
+        <Tooltip side="bottom">
+            <TooltipTrigger>
+                <ToggleGroupItem value="left" variant="outline" aria-label="Left">
+                    <AlignLeft />
+                </ToggleGroupItem>
+            </TooltipTrigger>
+            <TooltipContent>По левому краю</TooltipContent>
+        </Tooltip>
+
+        <Tooltip side="bottom">
+            <TooltipTrigger>
+                <ToggleGroupItem value="center" variant="outline" aria-label="Center">
+                    <AlignCenter />
+                </ToggleGroupItem>
+            </TooltipTrigger>
+            <TooltipContent>По центру</TooltipContent>
+        </Tooltip>
+
+        <Tooltip side="bottom">
+            <TooltipTrigger>
+                <ToggleGroupItem value="right" variant="outline" aria-label="Right">
+                    <AlignRight />
+                </ToggleGroupItem>
+            </TooltipTrigger>
+            <TooltipContent>По правому краю</TooltipContent>
+        </Tooltip>
+    </ToggleGroup>
+</div>
+
+<!-- 2. Множественный выбор (type="multiple") с Тултипами -->
+<div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Стили текста:</span>
+    <ToggleGroup type="multiple" defaultValue={["bold"]} spacing={2} class="bg-card p-1 rounded-lg border">
+        <Tooltip side="bottom">
+            <TooltipTrigger>
+                <ToggleGroupItem value="bold" aria-label="Bold">
+                    <Bold />
+                </ToggleGroupItem>
+            </TooltipTrigger>
+            <TooltipContent>Жирный</TooltipContent>
+        </Tooltip>
+
+        <Tooltip side="bottom">
+            <TooltipTrigger>
+                <ToggleGroupItem value="italic" aria-label="Italic">
+                    <Italic />
+                </ToggleGroupItem>
+            </TooltipTrigger>
+            <TooltipContent>Курсив</TooltipContent>
+        </Tooltip>
+
+        <Tooltip side="bottom">
+            <TooltipTrigger>
+                <ToggleGroupItem value="underline" aria-label="Underline">
+                    <Underline />
+                </ToggleGroupItem>
+            </TooltipTrigger>
+            <TooltipContent>Подчеркнутый</TooltipContent>
+        </Tooltip>
+    </ToggleGroup>
+</div>

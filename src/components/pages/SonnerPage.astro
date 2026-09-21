@@ -1,0 +1,25 @@
+---
+import Button from "../ui/Button.astro";
+---
+
+<div class="flex flex-wrap gap-3" x-data="{}">
+    <!-- Заменили @click на x-on:click -->
+
+    <Button x-on:click="$store.toasts.show('Данные успешно сохранены!', 'success')"> Показать Успех </Button>
+
+    <Button variant="destructive" x-on:click="$store.toasts.show('Не удалось удалить файл.', 'error')">
+        Показать Ошибку
+    </Button>
+
+    <Button variant="outline" x-on:click="$store.toasts.show('Скоро закончится место на диске.', 'warning')">
+        Показать Предупреждение
+    </Button>
+
+    <Button variant="secondary" x-on:click="$store.toasts.show('Обновление 2.0 доступно.', 'info')">
+        Показать Инфо
+    </Button>
+
+    <Button variant="ghost" x-on:click="$store.toasts.show('Идет загрузка на сервер...', 'loading')">
+        Показать Загрузку
+    </Button>
+</div>

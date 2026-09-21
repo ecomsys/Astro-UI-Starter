@@ -1,0 +1,32 @@
+---
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
+import Button from "../ui/Button.astro";
+import Input from "../ui/Input.astro";
+---
+
+<body class="bg-background text-foreground p-10 flex flex-col gap-6 items-start">
+    <!-- Тест разных состояний инпута -->
+    <div class="flex flex-col gap-4 w-96 max-w-full">
+        <Input placeholder="Обычный инпут" />
+
+        <Input type="email" placeholder="Email" disabled />
+
+        <Input type="password" placeholder="Пароль" aria-invalid="true" />
+
+        <Input type="file" />
+    </div>
+
+    <!-- Инпут внутри карточки с кнопкой -->
+    <Card class="w-96 max-w-full">
+        <CardHeader>
+            <CardTitle>Вход в систему</CardTitle>
+        </CardHeader>
+        <CardContent class="flex flex-col gap-3">
+            <Input type="email" placeholder="Введите email" />
+            <Input type="password" placeholder="Введите пароль" />
+        </CardContent>
+        <CardFooter>
+            <Button class="w-full">Войти</Button>
+        </CardFooter>
+    </Card>
+</body>

@@ -1,0 +1,21 @@
+---
+import Switch from "../ui/Switch.astro";
+import Label from "../ui/Label.astro";
+---
+
+<div class="flex flrx-row gap-4">
+    <div class="flex gap-4">
+        <Switch id="airplane-mode" />
+        <Label for="airplane-mode">Авиарежим (default)</Label>
+    </div>
+
+    <div class="flex gap-4">
+        <Switch id="notifications" size="sm" checked />
+        <Label for="notifications">Уведомления (sm, включен по умолчанию)</Label>
+    </div>
+
+    <div class="flex gap-4">
+        <Switch id="locked" disabled />
+        <Label for="locked">Заблокировано (disabled)</Label>
+    </div>
+</div>

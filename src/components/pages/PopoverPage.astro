@@ -1,0 +1,55 @@
+---
+import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverTitle,
+    PopoverDescription,
+} from "../ui/popover";
+import Button from "../ui/Button.astro";
+---
+
+<div class="flex gap-2">
+    <!-- 1. Снизу по центру (по умолчанию) -->
+    <Popover side="bottom" align="center">
+        <PopoverTrigger>
+            <Button variant="outline">Снизу (Центр)</Button>
+        </PopoverTrigger>
+        <!-- Пропсы ТУТ -->
+        <PopoverContent>
+            <PopoverHeader>
+                <PopoverTitle>Заголовок (h3)</PopoverTitle>
+                <PopoverDescription>Описание (p). Я выехал снизу и по центру.</PopoverDescription>
+            </PopoverHeader>
+        </PopoverContent>
+    </Popover>
+
+    <!-- 2. Слева, выравнивание по нижнему краю -->
+    <Popover side="left" align="end" sideOffset={3}>
+        <PopoverTrigger>
+            <Button variant="secondary">Слева (Конец)</Button>
+        </PopoverTrigger>
+        <!-- Пропсы ТУТ -->
+        <PopoverContent>
+            <PopoverHeader>
+                <PopoverTitle>Слева</PopoverTitle>
+                <PopoverDescription>Я выехал слева и прижался к нижнему краю кнопки. Отступ 10px.</PopoverDescription>
+            </PopoverHeader>
+        </PopoverContent>
+    </Popover>
+
+    <!-- 3. Сверху, выравнивание по левому краю -->
+    <Popover side="top" align="start">
+        <PopoverTrigger>
+            <Button variant="ghost">Сверху (Старт)</Button>
+        </PopoverTrigger>
+        <!-- Пропсы ТУТ -->
+        <PopoverContent>
+            <PopoverHeader>
+                <PopoverTitle>Сверху</PopoverTitle>
+                <PopoverDescription>Я выехал сверху и прижался к левому краю.</PopoverDescription>
+            </PopoverHeader>
+        </PopoverContent>
+    </Popover>
+</div>

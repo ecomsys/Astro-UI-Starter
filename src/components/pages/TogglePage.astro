@@ -1,0 +1,29 @@
+---
+import Toggle from "../ui/Toggle.astro";
+import { Bold, Italic, Underline, Strikethrough, AlignLeft } from "@lucide/astro";
+---
+
+<!-- 1. Обычные Toggle (default) -->
+<div class="flex gap-1 p-1 rounded-lg border bg-card">
+    <Toggle pressed={true} aria-label="Toggle bold">
+        <Bold />
+    </Toggle>
+    <Toggle aria-label="Toggle italic">
+        <Italic />
+    </Toggle>
+    <Toggle aria-label="Toggle underline">
+        <Underline />
+    </Toggle>
+</div>
+
+<!-- 2. С обводкой (outline) и разного размера -->
+<div class="flex gap-2 items-center">
+    <Toggle variant="outline" size="sm" aria-label="Toggle strike">
+        <Strikethrough />
+    </Toggle>
+    <Toggle variant="outline" size="lg" aria-label="Toggle align">
+        <AlignLeft />
+    </Toggle>
+
+    <Toggle variant="outline"> Текстовая кнопка </Toggle>
+</div>

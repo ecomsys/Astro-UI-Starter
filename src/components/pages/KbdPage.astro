@@ -1,0 +1,28 @@
+---
+import { Kbd, KbdGroup } from "../ui/kbd";
+import Button from "../ui/Button.astro";
+---
+
+<div class="flex gap-6">
+    <!-- Одиночная клавиша -->
+    <div class="flex items-center gap-3">
+        <span>Обновить страницу:</span>
+        <Kbd>F5</Kbd>
+    </div>
+
+    <!-- Группа клавиш (Комбинация) -->
+    <div class="flex items-center gap-3">
+        <span>Открыть поиск:</span>
+        <KbdGroup>
+            <Kbd>Ctrl</Kbd>
+            <Kbd>K</Kbd>
+        </KbdGroup>
+    </div>
+
+    <!-- Клавиша прямо в кнопке -->
+    <Button variant="outline">
+        Нажми
+        <Kbd>⌘</Kbd>
+        <Kbd>S</Kbd>
+    </Button>
+</div>

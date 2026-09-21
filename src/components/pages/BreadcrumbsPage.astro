@@ -1,0 +1,56 @@
+---
+import {
+    Breadcrumb,
+    BreadcrumbList,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+    BreadcrumbEllipsis,
+} from "../ui/breadcrumb";
+---
+
+<div class="flex flex-col gap-3">
+    <!-- Обычные крошки -->
+    <Breadcrumb>
+        <BreadcrumbList>
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/">Главная</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/components">Компоненты</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+                <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+            </BreadcrumbItem>
+        </BreadcrumbList>
+    </Breadcrumb>
+
+    <!-- Адаптивные крошки (с троеточием на мобилках) -->
+    <Breadcrumb>
+        <BreadcrumbList>
+            <BreadcrumbItem>
+                <BreadcrumbLink href="/">Главная</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+
+            <!-- Скрывается на маленьких экранах (hidden md:flex) -->
+            <BreadcrumbItem class="hidden md:flex">
+                <BreadcrumbLink href="/components">Компоненты</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator class="hidden md:flex" />
+
+            <!-- Троеточие (показывается только на мобилках) -->
+            <BreadcrumbItem class="md:hidden">
+                <BreadcrumbEllipsis />
+            </BreadcrumbItem>
+            <BreadcrumbSeparator class="md:hidden" />
+
+            <BreadcrumbItem>
+                <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+            </BreadcrumbItem>
+        </BreadcrumbList>
+    </Breadcrumb>
+</div>

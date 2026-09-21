@@ -1,0 +1,39 @@
+---
+import { NativeSelect, NativeSelectOption, NativeSelectOptGroup } from "../ui/native-select";
+import Label from "../ui/Label.astro";
+---
+
+<!-- 1. Обычный список с Лейблом -->
+<div class="flex flex-col gap-2">
+    <Label for="country">Страна доставки</Label>
+    <NativeSelect id="country" class="w-48">
+        <NativeSelectOption value="">Выберите страну...</NativeSelectOption>
+        <NativeSelectOption value="ru">Россия</NativeSelectOption>
+        <NativeSelectOption value="by">Беларусь</NativeSelectOption>
+        <NativeSelectOption value="kz">Казахстан</NativeSelectOption>
+    </NativeSelect>
+</div>
+
+<!-- 2. Маленький размер (size="sm") с группировкой -->
+<div class="flex flex-col gap-2">
+    <Label for="city">Город (Группировка)</Label>
+    <NativeSelect id="city" size="sm" class="w-56">
+        <NativeSelectOptGroup label="Европа">
+            <NativeSelectOption value="msk">Москва</NativeSelectOption>
+            <NativeSelectOption value="spb">Санкт-Петербург</NativeSelectOption>
+        </NativeSelectOptGroup>
+        <NativeSelectOptGroup label="Азия">
+            <NativeSelectOption value="nsk">Новосибирск</NativeSelectOption>
+            <NativeSelectOption value="vlk">Владивосток</NativeSelectOption>
+        </NativeSelectOptGroup>
+    </NativeSelect>
+</div>
+
+<!-- 3. Отключенный список -->
+<div class="flex flex-col gap-2">
+    <Label for="status">Статус (Заблокирован)</Label>
+    <NativeSelect id="status" disabled class="w-48">
+        <NativeSelectOption value="active">Активен</NativeSelectOption>
+        <NativeSelectOption value="banned">Заблокирован</NativeSelectOption>
+    </NativeSelect>
+</div>

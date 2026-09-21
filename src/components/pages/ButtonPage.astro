@@ -1,0 +1,53 @@
+---
+import Button from "../ui/Button.astro";
+---
+
+<div class="flex flex-wrap gap-3">
+    <Button>Default</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="destructive">Destructive</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="link">Link</Button>
+
+    <Button size="sm">Small</Button>
+    <Button size="lg">Large</Button>
+    <Button size="icon">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M5 12h14M12 5v14"></path></svg
+        >
+    </Button>
+
+    <!-- Обычные кнопки -->
+    <div class="flex flex-wrap gap-4">
+        <Button>Кнопка Button</Button>
+        <Button variant="secondary" disabled>Отключенная кнопка</Button>
+    </div>
+
+    <!-- Кнопки-ссылки -->
+    <div class="flex flex-wrap gap-4">
+        <Button href="/" variant="outline">Внутренняя ссылка</Button>
+        <Button href="https://google.com" variant="destructive">Внешняя ссылка (Google)</Button>
+        <Button href="https://astro.build" variant="link">Astro (Link variant)</Button>
+    </div>
+
+    <!-- Кнопка с иконкой -->
+    <Button href="/about" variant="default" size="lg">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg
+        >
+        Подробнее
+    </Button>
+</div>

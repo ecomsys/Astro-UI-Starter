@@ -1,0 +1,15 @@
+---
+import Spinner from "../ui/Spinner.astro";
+import Button from "../ui/Button.astro";
+---
+
+<div class="flex flex-col gap-6">
+    <!-- Обычный спиннер -->
+    <Spinner class="size-8 text-primary" />
+
+    <!-- Спиннер внутри кнопки (disabled, чтобы нельзя было нажать дважды) -->
+    <Button disabled>
+        <Spinner class="size-4 text-primary-foreground" />
+        Загрузка...
+    </Button>
+</div>

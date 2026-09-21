@@ -1,0 +1,36 @@
+---
+import { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, CardFooter } from "../ui/card";
+import Button from "../ui/Button.astro";
+---
+
+<div class="grid grid-cols-3 gap-3">
+    <!-- Стандартная карточка -->
+    <Card class="w-96 max-w-full">
+        <CardHeader>
+            <CardTitle>Создать проект</CardTitle>
+            <CardDescription>Разверните свой новый проект за одну минуту.</CardDescription>
+            <CardAction>
+                <Button variant="ghost" size="icon-sm">...</Button>
+            </CardAction>
+        </CardHeader>
+        <CardContent>
+            <p class="text-sm">
+                Тут какой-то контент внутри карточки. Карточка использует CSS-переменные для отступов, поэтому выглядит
+                идеально.
+            </p>
+        </CardContent>
+        <CardFooter>
+            <p class="text-xs text-muted-foreground">Подвал карточки</p>
+        </CardFooter>
+    </Card>
+
+    <!-- Маленькая карточка (size="sm") -->
+    <Card size="sm" class="w-96 max-w-full">
+        <CardHeader>
+            <CardTitle>Маленькая карточка</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p class="text-sm">Отступы тут меньше, так как мы передали size="sm".</p>
+        </CardContent>
+    </Card>
+</div>

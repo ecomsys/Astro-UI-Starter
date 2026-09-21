@@ -1,0 +1,38 @@
+---
+import { Progress, ProgressLabel, ProgressValue } from "../ui/progress";
+import Button from "../ui/Button.astro";
+---
+
+<div class="flex flex-col gap-6 w-full max-w-md">
+    <!-- 1. Статичная полоса (Локальный x-data) -->
+    <Progress x-data="{ value: 50 }" class="w-full">
+        <ProgressLabel>Загрузка файла</ProgressLabel>
+        <ProgressValue />
+    </Progress>
+
+    <!-- 2. Динамическая полоса (Управляется родителем через value, под капотом индикатор и текстовый ярлык ждут value роодителя) -->
+    <div x-data="{ value: 0 }" class="w-full flex flex-col gap-4">
+        <!-- Прогресс просто лежит внутри, он сам видит переменную value -->
+        <Progress class="w-full">
+            <ProgressLabel>Обработка данных</ProgressLabel>
+            <ProgressValue />
+        </Progress>
+
+        <!-- Кнопки меняют value, и Прогресс сам обновляется! -->
+        <div class="flex gap-3">
+            <Button @click="value = 100">Загрузить на 100%</Button>
+            <Button variant="outline" @click="value = 25">Сбросить до 25%</Button>
+        </div>
+    </div>
+
+    <!-- Прогресс просто лежит внутри, он сам видит переменную value -->
+    <Progress x-data="{ value: 30 }" class="w-full">
+        <ProgressLabel>Обработка данных</ProgressLabel>
+        <ProgressValue />
+
+        <div class="flex gap-3">
+            <Button @click="value = 100">Загрузить на 100%</Button>
+            <Button variant="outline" @click="value = 25">Сбросить до 25%</Button>
+        </div>
+    </Progress>
+</div>

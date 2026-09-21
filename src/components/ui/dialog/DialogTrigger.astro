@@ -1,0 +1,13 @@
+---
+const { class: className, ...rest } = Astro.props;
+---
+
+<button
+  type="button"
+  x-on:click="open = true"
+  data-slot="dialog-trigger"
+  class={className}
+  {...rest}
+>
+  <slot />
+</button>

@@ -1,0 +1,47 @@
+---
+import {
+    AlertDialog,
+    AlertDialogTrigger,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogMedia,
+    AlertDialogTitle,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogAction,
+    AlertDialogCancel,
+} from "../ui/alert-dialog";
+import Button from "../ui/Button.astro";
+import { Trash2, TriangleAlert } from "@lucide/astro";
+---
+
+<AlertDialog>
+    <AlertDialogTrigger>
+        <Button variant="destructive">
+            <Trash2 class="size-4" />
+            Удалить аккаунт
+        </Button>
+    </AlertDialogTrigger>
+
+    <AlertDialogContent>
+        <AlertDialogHeader>
+            <AlertDialogMedia class="bg-destructive/10 text-destructive">
+                <TriangleAlert />
+            </AlertDialogMedia>
+            <AlertDialogTitle>Вы абсолютно уверены?</AlertDialogTitle>
+            <AlertDialogDescription>
+                Это действие навсегда удалит ваш аккаунт и все связанные с ним данные. Восстановить доступ будет
+                невозможно.
+            </AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+            <AlertDialogCancel>
+                <Button variant="outline">Отмена</Button>
+            </AlertDialogCancel>
+            <AlertDialogAction>
+                <Button variant="destructive">Да, удалить аккаунт</Button>
+            </AlertDialogAction>
+        </AlertDialogFooter>
+    </AlertDialogContent>
+</AlertDialog>

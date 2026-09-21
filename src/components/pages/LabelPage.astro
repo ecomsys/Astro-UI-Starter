@@ -1,0 +1,32 @@
+---
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
+import Button from "../ui/Button.astro";
+import Input from "../ui/Input.astro";
+import Label from "../ui/Label.astro";
+---
+
+<body class="bg-background text-foreground p-10 flex flex-col gap-6 items-start">
+    <Card class="w-96 max-w-full">
+        <CardHeader>
+            <CardTitle>Форма входа</CardTitle>
+        </CardHeader>
+        <CardContent class="flex flex-col gap-4">
+            <!-- Блок Email -->
+            <div class="flex flex-col gap-2">
+                <Label for="email">Email</Label>
+                <!-- Добавлен класс "peer", чтобы Label мог на него реагировать -->
+                <Input id="email" type="email" placeholder="m@example.com" class="peer" />
+            </div>
+
+            <!-- Блок Пароль (сразу тестим disabled) -->
+            <div class="flex flex-col gap-2">
+                <Label for="password">Пароль</Label>
+                <Input id="password" type="password" placeholder="******" class="peer" disabled />
+            </div>
+        </CardContent>
+        <CardFooter>
+            <!-- Кнопка тоже disabled для теста -->
+            <Button class="w-full" disabled>Войти</Button>
+        </CardFooter>
+    </Card>
+</body>

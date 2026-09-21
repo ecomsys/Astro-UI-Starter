@@ -1,0 +1,18 @@
+---
+import Badge from "../ui/Badge.astro";
+import { CheckCircle, AlertTriangle } from "@lucide/astro";
+---
+
+<div class="flex flex-wrap gap-3">
+    <Badge>Default</Badge>
+    <Badge variant="secondary">Secondary</Badge>
+    <Badge variant="destructive">
+        <AlertTriangle class="size-3" />
+        Destructive
+    </Badge>
+    <Badge variant="outline">Outline</Badge>
+    <Badge variant="ghost">Ghost</Badge>
+
+    <!-- Бейдж-ссылка (наведи курсор, цвет изменится) -->
+    <Badge variant="default" href="https://google.com">Я ссылка</Badge>
+</div>
