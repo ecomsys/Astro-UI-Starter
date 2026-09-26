@@ -15,7 +15,6 @@ const { delay = 100, side = "top", sideOffset = 8, class: className, ...rest } =
 <div
     x-data={`tooltip(${delay}, '${side}', ${sideOffset})`}
     x-on:keydown.escape.window="hide()"
-    x-on:scroll.window="forceHide()"
     class={cn("relative inline-flex", className)}
     data-slot="tooltip"
     {...rest}

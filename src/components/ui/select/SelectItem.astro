@@ -11,14 +11,17 @@ export interface Props {
 }
 
 const { value, label, disabled = false, class: className, ...rest } = Astro.props;
+
+const safeValue = value.replace(/'/g, "\\'");
+const safeLabel = label.replace(/'/g, "\\'");
 ---
 
 <button
     type="button"
-    x-on:click={`select('${value}', ${JSON.stringify(label)})`}
+    x-on:click={`select('${safeValue}', '${safeLabel}')`}
     data-slot="select-item"
-    :data-selected={`selectedValue === '${value}'`}
-    :aria-selected={`selectedValue === '${value}'`}
+    :data-selected={`selectedValue === '${safeValue}'`}
+    :aria-selected={`selectedValue === '${safeValue}'`}
     class={cn(
         "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
@@ -30,6 +33,6 @@ const { value, label, disabled = false, class: className, ...rest } = Astro.prop
         <slot />
     </span>
     <span class="pointer-events-none absolute right-2 flex size-4 items-center justify-center">
-        <CheckIcon x-show={`selectedValue === '${value}'`} class="size-4" />
+        <CheckIcon x-show={`selectedValue === '${safeValue}'`} class="size-4" />
     </span>
 </button>

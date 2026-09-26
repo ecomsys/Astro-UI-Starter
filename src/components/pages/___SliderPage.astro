@@ -1,0 +1,32 @@
+---
+import Slider from "../../components/ui/slider/Slider.astro";
+---
+
+<!-- 1. Одиночный слайдер (Громкость) -->
+<div class="w-full flex flex-col gap-4" x-data="{ volume: 50 }">
+    <div class="flex justify-between text-sm">
+        <span>Громкость:</span>
+        <!-- Текст динамически обновляется из переменной volume -->
+        <span x-text="volume + '%'"></span>
+    </div>
+    <!-- Ловим событие input и берем первый элемент из массива values -->
+    <Slider defaultValue={[50]} min={0} max={100} step={1} x-on:input="volume = $event.detail.values[0]" />
+</div>
+
+<!-- 2. Диапазон (Цена от и до) -->
+<div class="w-full flex flex-col gap-4" x-data="{ priceMin: 1000, priceMax: 5000 }">
+    <div class="flex justify-between text-sm">
+        <span>Цена:</span>
+        <span>
+            <span x-text="priceMin"></span> ₽ — <span x-text="priceMax"></span> ₽
+        </span>
+    </div>
+    <!-- Ловим событие input и берем оба элемента из массива values -->
+    <Slider
+        defaultValue={[1000, 5000]}
+        min={0}
+        max={10000}
+        step={100}
+        x-on:input="priceMin = $event.detail.values[0]; priceMax = $event.detail.values[1]"
+    />
+</div>

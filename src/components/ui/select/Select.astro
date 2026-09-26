@@ -1,4 +1,6 @@
 ---
+import { cn } from "../../../lib/utils";
+
 export interface Props {
     defaultValue?: string;
     defaultLabel?: string;
@@ -18,12 +20,18 @@ const {
     class: className,
     ...rest
 } = Astro.props;
+
+// Экранируем одинарные кавычки для безопасности в HTML атрибутах
+const safeDefault = defaultValue.replace(/'/g, "\\'");
+const safeLabel = defaultLabel.replace(/'/g, "\\'");
+const safeSide = side.replace(/'/g, "\\'");
+const safeAlign = align.replace(/'/g, "\\'");
 ---
 
 <div
-    x-data={`select('${defaultValue}', ${JSON.stringify(defaultLabel)}, '${side}', '${align}', ${sideOffset})`}
+    x-data={`select('${safeDefault}', '${safeLabel}', '${safeSide}', '${safeAlign}', ${sideOffset})`}
     x-on:keydown.escape.window="hide()"
-    x-on:scroll.window="forceHide()"
+    x-on:scroll.window="instantHide()"
     class={className}
     data-slot="select"
     {...rest}

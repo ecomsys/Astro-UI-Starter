@@ -1,0 +1,329 @@
+---
+import "../styles/global.css";
+import AutoRem from "../components/system/AutoRem.astro";
+import Viewport from "../components/system/Viewport.astro";
+
+import {
+    SidebarProvider,
+    Sidebar,
+    SidebarInset,
+    SidebarTrigger,
+    SidebarHeader,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupLabel,
+    SidebarMenu,
+    SidebarMenuItem,
+    SidebarMenuButton,
+} from "../components/ui/sidebar";
+import Input from "../components/ui/Input.astro";
+import Toaster from "../components/ui/sonner/Toaster.astro";
+import ThemeToggle from "../components/ui/ThemeToggle.astro";
+
+// СТАТИЧЕСКИ ИМПОРТИРУЕМ ВСЕ НУЖНЫЕ ИКОНКИ
+import {
+    Home,
+    LifeBuoy,
+    Search,
+    Square,
+    SquareStack,
+    Tag,
+    User,
+    Minus,
+    Loader,
+    TextCursorInput,
+    CheckSquare,
+    ToggleLeft,
+    SlidersHorizontal,
+    ChevronDown,
+    PanelTop,
+    ChevronDownSquare,
+    Slash,
+    ChevronsRight,
+    PanelTopOpen,
+    PanelRight,
+    MessageSquareDot,
+    MousePointerClick,
+    MousePointer,
+    AlertCircle,
+    Table,
+    Inbox,
+    Command,
+    Calendar,
+    BarChart3,
+    GalleryHorizontalEnd,
+    FileText,
+    // НОВЫЕ ИКОНКИ ДЛЯ НЕДОСТАЮЩИХ КОМПОНЕНТОВ:
+    LoaderCircle,
+    TrendingUp,
+    RectangleHorizontal,
+    FormInput,
+    WrapText,
+    KeyRound,
+    CircleDot,
+    AlignLeft,
+    Baseline,
+    Menu,
+    MenuSquare,
+    ChevronsUpDown,
+    ShieldAlert,
+    SquareMousePointer,
+    BellRing,
+    ToggleRight,
+    Rows3,
+    Combine,
+    Scroll,
+    Move,
+} from "@lucide/astro";
+
+// Карта иконок
+const iconMap = {
+    Home,
+    Square,
+    SquareStack,
+    Tag,
+    User,
+    Minus,
+    Loader,
+    TextCursorInput,
+    CheckSquare,
+    ToggleLeft,
+    SlidersHorizontal,
+    ChevronDown,
+    PanelTop,
+    ChevronDownSquare,
+    Slash,
+    ChevronsRight,
+    PanelTopOpen,
+    PanelRight,
+    MessageSquareDot,
+    MousePointerClick,
+    MousePointer,
+    AlertCircle,
+    Table,
+    Inbox,
+    Command,
+    Calendar,
+    BarChart3,
+    GalleryHorizontalEnd,
+    FileText,
+    // Новые:
+    LoaderCircle,
+    TrendingUp,
+    RectangleHorizontal,
+    FormInput,
+    WrapText,
+    KeyRound,
+    CircleDot,
+    AlignLeft,
+    Baseline,
+    Menu,
+    MenuSquare,
+    ChevronsUpDown,
+    ShieldAlert,
+    SquareMousePointer,
+    BellRing,
+    ToggleRight,
+    Rows3,
+    Combine,
+    Scroll,
+    Move,
+};
+
+// Структура меню с группировкой
+const navGroups = [
+    {
+        title: "Базовые",
+        items: [
+            { href: "/ui-kit/button", label: "Button", icon: "Square" },
+            { href: "/ui-kit/card", label: "Card", icon: "SquareStack" },
+            { href: "/ui-kit/badge", label: "Badge", icon: "Tag" },
+            { href: "/ui-kit/avatar", label: "Avatar", icon: "User" },
+            { href: "/ui-kit/separator", label: "Separator", icon: "Minus" },
+            { href: "/ui-kit/skeleton", label: "Skeleton", icon: "Loader" },
+            { href: "/ui-kit/kbd", label: "Kbd", icon: "Command" },
+            { href: "/ui-kit/spinner", label: "Spinner", icon: "LoaderCircle" },
+            { href: "/ui-kit/progress", label: "Progress", icon: "TrendingUp" },
+            { href: "/ui-kit/aspect-ratio", label: "Aspect Ratio", icon: "RectangleHorizontal" },
+        ],
+    },
+    {
+        title: "Формы",
+        items: [
+            { href: "/ui-kit/input", label: "Input & Forms", icon: "TextCursorInput" },
+            { href: "/ui-kit/textarea", label: "Textarea", icon: "AlignLeft" },
+            { href: "/ui-kit/label", label: "Label", icon: "Baseline" },
+            { href: "/ui-kit/field", label: "Field", icon: "FormInput" },
+            { href: "/ui-kit/input-group", label: "Input Group", icon: "WrapText" },
+            { href: "/ui-kit/checkbox", label: "Checkbox", icon: "CheckSquare" },
+            { href: "/ui-kit/switch", label: "Switch", icon: "ToggleLeft" },
+            { href: "/ui-kit/radio-group", label: "Radio Group", icon: "CircleDot" },
+            { href: "/ui-kit/slider", label: "Slider", icon: "SlidersHorizontal" },
+            { href: "/ui-kit/select", label: "Select", icon: "ChevronDown" },
+            { href: "/ui-kit/native-select", label: "Native Select", icon: "ChevronDownSquare" },
+            { href: "/ui-kit/input-otp", label: "Input OTP", icon: "KeyRound" },
+        ],
+    },
+    {
+        title: "Навигация",
+        items: [
+            { href: "/ui-kit/tabs", label: "Tabs", icon: "PanelTop" },
+            { href: "/ui-kit/accordion", label: "Accordion", icon: "ChevronDownSquare" },
+            { href: "/ui-kit/breadcrumb", label: "Breadcrumb", icon: "Slash" },
+            { href: "/ui-kit/pagination", label: "Pagination", icon: "ChevronsRight" },
+            { href: "/ui-kit/navigation-menu", label: "Navigation Menu", icon: "Menu" },
+            { href: "/ui-kit/menubar", label: "Menubar", icon: "MenuSquare" },
+            { href: "/ui-kit/collapsible", label: "Collapsible", icon: "ChevronsUpDown" },
+        ],
+    },
+    {
+        title: "Оверлеи",
+        items: [
+            { href: "/ui-kit/dialog", label: "Dialog", icon: "PanelTopOpen" },
+            { href: "/ui-kit/alert-dialog", label: "Alert Dialog", icon: "ShieldAlert" },
+            { href: "/ui-kit/sheet", label: "Sheet", icon: "PanelRight" },
+            { href: "/ui-kit/popover", label: "Popover", icon: "MessageSquareDot" },
+            { href: "/ui-kit/tooltip", label: "Tooltip", icon: "MousePointerClick" },
+            { href: "/ui-kit/hover-card", label: "Hover Card", icon: "MousePointer" },
+            { href: "/ui-kit/context-menu", label: "Context Menu", icon: "SquareMousePointer" },
+            { href: "/ui-kit/sonner", label: "Sonner (Toasts)", icon: "BellRing" },
+        ],
+    },
+    {
+        title: "Отображение",
+        items: [
+            { href: "/ui-kit/alert", label: "Alert", icon: "AlertCircle" },
+            { href: "/ui-kit/table", label: "Table", icon: "Table" },
+            { href: "/ui-kit/empty", label: "Empty", icon: "Inbox" },
+            { href: "/ui-kit/toggle", label: "Toggle", icon: "ToggleRight" },
+            { href: "/ui-kit/toggle-group", label: "Toggle Group", icon: "Rows3" },
+            { href: "/ui-kit/button-group", label: "Button Group", icon: "Combine" },
+            { href: "/ui-kit/scroll-area", label: "Scroll Area", icon: "Scroll" },
+            { href: "/ui-kit/resizable", label: "Resizable", icon: "Move" },
+        ],
+    },
+    {
+        title: "Комплексные",
+        items: [
+            { href: "/ui-kit/command", label: "Command", icon: "Command" },
+            { href: "/ui-kit/calendar", label: "Calendar", icon: "Calendar" },
+            { href: "/ui-kit/charts", label: "Charts", icon: "BarChart3" },
+            { href: "/ui-kit/carousel", label: "Carousel", icon: "GalleryHorizontalEnd" },
+            { href: "/ui-kit/wysiwyg-editor", label: "WYSIWYG Editor", icon: "FileText" },
+        ],
+    },
+];
+
+const currentPath = Astro.url.pathname;
+
+interface Props {
+    title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+        <script is:inline>
+            const theme =
+                localStorage.getItem("theme") ||
+                (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+            if (theme === "dark") document.documentElement.classList.add("dark");
+        </script>
+        <AutoRem baseSiteWidth={1536} baseFontSize={16} />
+        <Viewport breakpoint={1536} designWidth={1920} />
+    </head>
+    <body class="bg-background text-foreground min-h-screen flex flex-col transition-colors duration-300">
+        <SidebarProvider defaultOpen={true}>
+            <Sidebar side="left">
+                <SidebarHeader>
+                    <div class="flex items-center gap-2 px-2 py-1.5">
+                        <div
+                            class="size-6 rounded-md bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0"
+                        >
+                            V
+                        </div>
+                        <span class="font-bold truncate">Virgo UI Kit</span>
+                    </div>
+                </SidebarHeader>
+
+                <SidebarContent>
+                    <SidebarGroup>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton
+                                    href="/"
+                                    isActive={currentPath === "/"}
+                                    class="flex items-center gap-2"
+                                >
+                                    <Home class="size-4" />
+                                    <span>Главная</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroup>
+
+                    {
+                        navGroups.map((group) => (
+                            <SidebarGroup>
+                                <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+                                <SidebarMenu>
+                                    {group.items.map((item) => {
+                                        const Icon = iconMap[item.icon as keyof typeof iconMap];
+                                        return (
+                                            <SidebarMenuItem>
+                                                <SidebarMenuButton
+                                                    href={item.href}
+                                                    isActive={currentPath === item.href}
+                                                    class="flex items-center gap-2"
+                                                >
+                                                    {Icon && <Icon class="size-4" />}
+                                                    <span>{item.label}</span>
+                                                </SidebarMenuButton>
+                                            </SidebarMenuItem>
+                                        );
+                                    })}
+                                </SidebarMenu>
+                            </SidebarGroup>
+                        ))
+                    }
+                </SidebarContent>
+
+                <SidebarFooter>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton><LifeBuoy class="size-4" /> <span>Поддержка</span></SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarFooter>
+            </Sidebar>
+
+            <SidebarInset>
+                <header class="flex h-16 items-center gap-4 border-b px-6 bg-card/50 backdrop-blur sticky top-0 z-30">
+                    <SidebarTrigger />
+                    <h1 class="text-lg font-semibold hidden sm:block">{title}</h1>
+                    <div class="ml-auto flex items-center gap-2 sm:gap-4">
+                        <div class="w-full max-w-xs hidden md:block">
+                            <div class="relative">
+                                <Search class="absolute left-2 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                                <Input placeholder="Поиск..." class="h-9 pl-8" />
+                            </div>
+                        </div>
+                        <ThemeToggle />
+                    </div>
+                </header>
+
+                <main class="pt-6 pb-20 flex-1 w-full max-w-5xl mx-auto">
+                    <slot />
+                </main>
+            </SidebarInset>
+        </SidebarProvider>
+
+        <Toaster sound={true} />
+    </body>
+</html>

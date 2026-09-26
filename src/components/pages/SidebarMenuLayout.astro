@@ -1,0 +1,121 @@
+---
+import "../styles/global.css";
+import {
+    SidebarProvider,
+    Sidebar,
+    SidebarInset,
+    SidebarTrigger,
+    SidebarHeader,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarMenu,
+    SidebarMenuItem,
+    SidebarMenuButton,
+} from "../../components/ui/sidebar";
+import Input from "../../components/ui/Input.astro";
+import Toaster from "../../components/ui/sonner/Toaster.astro";
+import { Home, Settings, Users, FileText, Search, LifeBuoy } from "@lucide/astro";
+import ThemeToggle from "../../components/ui/ThemeToggle.astro";
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+
+        <!-- Скрипт антифликер: применяет тему ДО того, как страница отрисуется -->
+        <script is:inline>
+            const theme =
+                localStorage.getItem("theme") ||
+                (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+            if (theme === "dark") document.documentElement.classList.add("dark");
+        </script>
+    </head>
+    <body class="bg-background text-foreground min-h-screen flex flex-col transition-colors duration-300">
+        <!-- НАЧАЛО ДАШБОРД ЛЕЙАУТА -->
+        <SidebarProvider defaultOpen={true}>
+            <!-- САЙДБАР -->
+            <Sidebar side="left">
+                <SidebarHeader>
+                    <div class="flex items-center gap-2 px-2 py-1.5">
+                        <div
+                            class="size-6 rounded-md bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0"
+                        >
+                            V
+                        </div>
+                        <span class="font-bold truncate">Virgo Admin</span>
+                    </div>
+                </SidebarHeader>
+
+                <SidebarContent>
+                    <SidebarGroup>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton isActive><Home /> <span>Главная</span></SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton><Users /> <span>Пользователи</span></SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton><FileText /> <span>Документы</span></SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton><Settings /> <span>Настройки</span></SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroup>
+                </SidebarContent>
+
+                <SidebarFooter>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton><LifeBuoy /> <span>Поддержка</span></SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarFooter>
+            </Sidebar>
+
+            <!-- ОСНОВНАЯ ОБЛАСТЬ -->
+            <SidebarInset>
+                <!-- ШАПКА (Хедер) -->
+                <header class="flex h-16 items-center gap-4 border-b px-6 bg-card/50 backdrop-blur sticky top-0 z-30">
+                    <SidebarTrigger />
+
+                    <h1 class="text-lg font-semibold hidden sm:block">{title}</h1>
+
+                    <!-- Выравнивание по правому краю -->
+                    <div class="ml-auto flex items-center gap-2 sm:gap-4">
+                        <!-- Поиск (скрывается на мобилках, чтобы не мешать) -->
+                        <div class="w-full max-w-xs hidden md:block">
+                            <div class="relative">
+                                <Search class="absolute left-2 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                                <Input placeholder="Поиск..." class="h-9 pl-8" />
+                            </div>
+                        </div>
+
+                        <!-- Переключатель темы -->
+                        <ThemeToggle />
+                    </div>
+                </header>
+
+                <!-- КОНТЕНТ СТРАНИЦЫ -->
+                <main class="p-6 flex-1">
+                    <slot />
+                </main>
+            </SidebarInset>
+        </SidebarProvider>
+        <!-- КОНЕЦ ДАШБОРД ЛЕЙАУТА -->
+
+        <!-- Добавляем Toaster (уведомления) -->
+        <Toaster sound={true} />
+    </body>
+</html>

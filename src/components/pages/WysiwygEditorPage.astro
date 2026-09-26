@@ -1,0 +1,9 @@
+---
+import { WysiwygEditor } from "../ui/wysiwyg-editor";
+import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/card";
+---
+
+<div class="w-full" x-data="{ html: '<h1>Привет, бро!</h1><p>Это <b>наш собственный</b> WYSIWYG редактор.</p>' }">
+    <!-- Сам редактор -->
+    <WysiwygEditor :content="html" @input="html = $event.target.content" />
+</div>

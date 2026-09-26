@@ -1,132 +1,147 @@
 ---
-import ThemeToggle from "../components/ui/ThemeToggle.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import DashboardLayout from "../layouts/DashboardLayout.astro";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../components/ui/card";
+import Badge from "../components/ui/Badge.astro";
+import { ArrowRight, Rocket } from "@lucide/astro";
 
-import SonnerPage from "../components/pages/SonnerPage.astro";
-import SelectPage from "../components/pages/SelectPage.astro";
-import PaginationPage from "../components/pages/PaginationPage.astro";
-import ToggleGroupPage from "../components/pages/ToggleGroupPage.astro";
-import TogglePage from "../components/pages/TogglePage.astro";
-import ContextMenuPage from "../components/pages/ContextMenuPage.astro";
-import HoverCardPage from "../components/pages/HoverCardPage.astro";
-import NativeSelectPage from "../components/pages/NativeSelectPage.astro";
-import InputGroupPage from "../components/pages/InputGroupPage.astro";
-import FieldPage from "../components/pages/FieldPage.astro";
-import SheetPage from "../components/pages/SheetPage.astro";
-import AlertDialogPage from "../components/pages/AlertDialogPage.astro";
-import RadioGroupPage from "../components/pages/RadioGroupPage.astro";
-import ButtonGroupPage from "../components/pages/ButtonGroupPage.astro";
-import CollapsiblePage from "../components/pages/CollapsiblePage.astro";
-import EmptyPage from "../components/pages/EmptyPage.astro";
-import ProgressPage from "../components/pages/ProgressPage.astro";
-import SpinnerPage from "../components/pages/SpinnerPage.astro";
-import KbdPage from "../components/pages/KbdPage.astro";
-import BreadcrumbsPage from "../components/pages/BreadcrumbsPage.astro";
-import AspectRatioPage from "../components/pages/AspectRatioPage.astro";
-import ScrollAreaPage from "../components/pages/ScrollAreaPage.astro";
-import TablePage from "../components/pages/TablePage.astro";
-import CheckboxPage from "../components/pages/CheckboxPage.astro";
-import SwitchPage from "../components/pages/SwitchPage.astro";
-import TooltipPage from "../components/pages/TooltipPage.astro";
-import DialogPage from "../components/pages/DialogPage.astro";
-import DropDownMenuPage from "../components/pages/DropDownMenuPage.astro";
-import TabsPage from "../components/pages/TabsPage.astro";
-import AccordionPage from "../components/pages/AccordionPage.astro";
-import AvatarPage from "../components/pages/AvatarPage.astro";
-import SeparatorPage from "../components/pages/SeparatorPage.astro";
-import BadgePage from "../components/pages/BadgePage.astro";
-import TextAreaPage from "../components/pages/TextAreaPage.astro";
-import LabelPage from "../components/pages/LabelPage.astro";
-import InputPage from "../components/pages/InputPage.astro";
-import ButtonPage from "../components/pages/ButtonPage.astro";
-import CardPage from "../components/pages/CardPage.astro";
-import AlertPage from "../components/pages/AlertPage.astro";
-import PopoverPage from "../components/pages/PopoverPage.astro";
+// Полный список компонентов с описаниями
+const navGroups = [
+    {
+        title: "Базовые",
+        items: [
+            { href: "/ui-kit/button", label: "Button", desc: "Кнопки с поддержкой ссылок, иконок и вариантов." },
+            { href: "/ui-kit/card", label: "Card", desc: "Карточки для группировки контента." },
+            { href: "/ui-kit/badge", label: "Badge", desc: "Плашки для статусов и меток." },
+            { href: "/ui-kit/avatar", label: "Avatar", desc: "Аватарки пользователей и группы." },
+            { href: "/ui-kit/separator", label: "Separator", desc: "Линии-разделители." },
+            { href: "/ui-kit/skeleton", label: "Skeleton", desc: "Заглушки при загрузке данных." },
+            { href: "/ui-kit/kbd", label: "Kbd", desc: "Отображение горячих клавиш." },
+            { href: "/ui-kit/spinner", label: "Spinner", desc: "Крутящийся индикатор загрузки." },
+            { href: "/ui-kit/progress", label: "Progress", desc: "Полоса выполнения задачи." },
+            { href: "/ui-kit/aspect-ratio", label: "Aspect Ratio", desc: "Контейнер для сохранения пропорций." },
+        ],
+    },
+    {
+        title: "Формы",
+        items: [
+            { href: "/ui-kit/input", label: "Input & Forms", desc: "Поля ввода, лейблы и текстареа." },
+            { href: "/ui-kit/textarea", label: "Textarea", desc: "Многострочное поле ввода." },
+            { href: "/ui-kit/label", label: "Label", desc: "Подписи к полям ввода." },
+            { href: "/ui-kit/field", label: "Field", desc: "Обертка над инпутами (Label + Input + Error)." },
+            { href: "/ui-kit/input-group", label: "Input Group", desc: "Инпуты с иконками внутри." },
+            { href: "/ui-kit/checkbox", label: "Checkbox", desc: "Галочки выбора." },
+            { href: "/ui-kit/switch", label: "Switch", desc: "Тумблеры Вкл/Выкл." },
+            { href: "/ui-kit/radio-group", label: "Radio Group", desc: "Радио-кнопки." },
+            { href: "/ui-kit/slider", label: "Slider", desc: "Ползунки выбора значений." },
+            { href: "/ui-kit/select", label: "Select", desc: "Кастомные выпадающие списки." },
+            { href: "/ui-kit/native-select", label: "Native Select", desc: "Стилизованный нативный <select>." },
+            { href: "/ui-kit/input-otp", label: "Input OTP", desc: "Ввод кода из СМС по ячейкам." },
+        ],
+    },
+    {
+        title: "Навигация",
+        items: [
+            { href: "/ui-kit/tabs", label: "Tabs", desc: "Переключаемые вкладки." },
+            { href: "/ui-kit/accordion", label: "Accordion", desc: "Раскрывающиеся списки (FAQ)." },
+            { href: "/ui-kit/breadcrumb", label: "Breadcrumb", desc: "Хлебные крошки для SEO." },
+            { href: "/ui-kit/pagination", label: "Pagination", desc: "Постраничная навигация." },
+            { href: "/ui-kit/navigation-menu", label: "Navigation Menu", desc: "Мега-меню для шапки сайта." },
+            { href: "/ui-kit/menubar", label: "Menubar", desc: "Меню как в Photoshop/VS Code." },
+            { href: "/ui-kit/collapsible", label: "Collapsible", desc: "Простая сворачивалка контента." },
+        ],
+    },
+    {
+        title: "Оверлеи",
+        items: [
+            { href: "/ui-kit/dialog", label: "Dialog", desc: "Модальные окна." },
+            {
+                href: "/ui-kit/alert-dialog",
+                label: "Alert Dialog",
+                desc: "Окно подтверждения (нельзя закрыть по клику вне).",
+            },
+            { href: "/ui-kit/sheet", label: "Sheet", desc: "Выезжающие панели сбоку." },
+            { href: "/ui-kit/popover", label: "Popover", desc: "Всплывающие окна с контентом." },
+            { href: "/ui-kit/tooltip", label: "Tooltip", desc: "Подсказки при наведении." },
+            { href: "/ui-kit/hover-card", label: "Hover Card", desc: "Карточки профиля при наведении." },
+            { href: "/ui-kit/context-menu", label: "Context Menu", desc: "Меню по правой кнопке мыши." },
+            { href: "/ui-kit/sonner", label: "Sonner (Toasts)", desc: "Всплывающие уведомления." },
+        ],
+    },
+    {
+        title: "Отображение",
+        items: [
+            { href: "/ui-kit/alert", label: "Alert", desc: "Блоки с предупреждениями." },
+            { href: "/ui-kit/table", label: "Table", desc: "Стилизованные таблицы." },
+            { href: "/ui-kit/empty", label: "Empty", desc: 'Заглушки "Ничего не найдено".' },
+            { href: "/ui-kit/toggle", label: "Toggle", desc: "Кнопка-переключатель (залипает)." },
+            { href: "/ui-kit/toggle-group", label: "Toggle Group", desc: "Группа кнопок-переключателей." },
+            { href: "/ui-kit/button-group", label: "Button Group", desc: "Склеенные группы кнопок." },
+            { href: "/ui-kit/scroll-area", label: "Scroll Area", desc: "Кастомный скроллбар." },
+            { href: "/ui-kit/resizable", label: "Resizable", desc: "Изменяемые панели." },
+        ],
+    },
+    {
+        title: "Комплексные",
+        items: [
+            { href: "/ui-kit/command", label: "Command", desc: "Палитра команд (Ctrl+K)." },
+            { href: "/ui-kit/calendar", label: "Calendar", desc: "Календарь выбора дат." },
+            { href: "/ui-kit/charts", label: "Charts", desc: "Графики (Bar, Line, Donut)." },
+            { href: "/ui-kit/carousel", label: "Carousel", desc: "Слайдеры с поддержкой свайпа." },
+            { href: "/ui-kit/wysiwyg-editor", label: "WYSIWYG Editor", desc: "Текстовый редактор контента." },
+        ],
+    },
+];
 ---
 
-<BaseLayout title="Дизайн-система на Astro + Tailwind v4">
-    <header>
-        <ThemeToggle />
-    </header>
-    <div class="max-w-3xl mx-auto flex flex-col gap-3">
-        <SonnerPage />
+<DashboardLayout title="Главная">
+    <div class="flex flex-col gap-12">
+        <!-- ПРИВЕТСТВИЕ -->
+        <div
+            class="border rounded-xl p-8 bg-card shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4"
+        >
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <h1 class="text-3xl font-bold tracking-tight">Virgo UI Kit</h1>
+                    <Badge variant="outline" class="text-xs">v1.0.0</Badge>
+                </div>
+                <p class="text-muted-foreground max-w-2xl">
+                    Полноценная библиотека компонентов на Astro, Tailwind v4 и Alpine.js. Адаптивная, темная тема, ноль
+                    React-рантайма.
+                </p>
+            </div>
+            <div class="flex gap-2 shrink-0">
+                <span class="px-3 py-1 text-xs rounded-md bg-muted flex items-center gap-1"
+                    ><Rocket class="size-3" /> Astro</span
+                >
+                <span class="px-3 py-1 text-xs rounded-md bg-muted">Tailwind v4</span>
+                <span class="px-3 py-1 text-xs rounded-md bg-muted">Alpine.js</span>
+            </div>
+        </div>
 
-        <SelectPage />
-
-        <PaginationPage />
-
-        <ToggleGroupPage />
-
-        <TogglePage />
-
-        <ContextMenuPage />
-
-        <HoverCardPage />
-
-        <NativeSelectPage />
-
-        <InputGroupPage />
-
-        <FieldPage />
-
-        <SheetPage />
-
-        <AlertDialogPage />
-
-        <RadioGroupPage />
-
-        <ButtonGroupPage />
-
-        <CollapsiblePage />
-
-        <EmptyPage />
-
-        <ProgressPage />
-
-        <SpinnerPage />
-
-        <KbdPage />
-
-        <BreadcrumbsPage />
-
-        <AspectRatioPage />
-
-        <ScrollAreaPage />
-
-        <TablePage />
-
-        <CheckboxPage />
-
-        <SwitchPage />
-
-        <PopoverPage />
-
-        <TooltipPage />
-
-        <DialogPage />
-
-        <DropDownMenuPage />
-
-        <TabsPage />
-
-        <AccordionPage />
-
-        <AvatarPage />
-
-        <SeparatorPage />
-
-        <BadgePage />
-
-        <TextAreaPage />
-
-        <LabelPage />
-
-        <InputPage />
-
-        <CardPage />
-
-        <ButtonPage />
-
-        <AlertPage />
+        <!-- СЕТКА КОМПОНЕНТОВ ПО ГРУППАМ -->
+        {
+            navGroups.map((group) => (
+                <section class="flex flex-col gap-4">
+                    <h2 class="text-xl font-semibold text-muted-foreground border-b pb-2">{group.title}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {group.items.map((item) => (
+                            <a href={item.href} class="group block hover:scale-[1.02] transition-transform">
+                                <Card class="h-full hover:border-primary hover:shadow-md transition-all">
+                                    <CardHeader>
+                                        <div class="flex items-center justify-between">
+                                            <CardTitle class="text-lg">{item.label}</CardTitle>
+                                            <ArrowRight class="size-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p class="text-sm text-muted-foreground">{item.desc}</p>
+                                    </CardContent>
+                                </Card>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            ))
+        }
     </div>
-</BaseLayout>
+</DashboardLayout>

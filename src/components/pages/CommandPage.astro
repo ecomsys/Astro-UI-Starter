@@ -1,0 +1,43 @@
+---
+import {
+    CommandDialog,
+    CommandInput,
+    CommandList,
+    CommandEmpty,
+    CommandGroup,
+    CommandItem,
+    CommandShortcut,
+} from "../../components/ui/command";
+import Button from "../../components/ui/Button.astro";
+import { User, Settings, CreditCard, LogOut, Home, FileText } from "@lucide/astro";
+---
+
+<!-- ИСПОЛЬЗУЕМ ГЛОБАЛЬНЫЙ СТОР ДЛЯ ОТКРЫТИЯ -->
+<Button x-data x-on:click="$store.command.toggle()"> Открыть командную палитру (Ctrl+K или /) </Button>
+
+<!-- Сама палитра -->
+<CommandDialog>
+    <div slot="content">
+        <CommandInput placeholder="Введите команду..." />
+        <CommandList>
+            <CommandEmpty>Команды не найдены.</CommandEmpty>
+
+            <CommandGroup heading="Аккаунт">
+                <CommandItem><User /> Профиль <CommandShortcut>⌘P</CommandShortcut></CommandItem>
+                <CommandItem><Settings /> Настройки <CommandShortcut>⌘S</CommandShortcut></CommandItem>
+                <CommandItem><CreditCard /> Биллинг</CommandItem>
+                <CommandItem variant="destructive"><LogOut /> Выйти</CommandItem>
+            </CommandGroup>
+
+            <CommandGroup heading="Навигация">
+                <CommandItem><Home /> На главную</CommandItem>
+                <CommandItem><FileText /> Блог</CommandItem>
+            </CommandGroup>
+
+            <CommandGroup heading="Прочее">
+                <CommandItem> GitHub</CommandItem>
+                <CommandItem>Документация</CommandItem>
+            </CommandGroup>
+        </CommandList>
+    </div>
+</CommandDialog>

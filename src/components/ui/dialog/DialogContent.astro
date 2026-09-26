@@ -20,6 +20,7 @@ const { size = "default", showCloseButton = false, class: className, ...rest } =
         <!-- Затемненный фон (Overlay) -->
         <div
             x-show="open"
+            x-on:click="open = false"
             x-transition:enter="transition ease-out duration-100"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"

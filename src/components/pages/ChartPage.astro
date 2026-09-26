@@ -1,0 +1,97 @@
+---
+import { ChartContainer, ChartLegend, BarChart, LineChart, DonutChart } from "../../components/ui/chart";
+---
+
+<div class="w-full flex flex-col gap-6">
+    <!-- 1. Линейный график (Адаптивная высота) -->
+    <div class="rounded-xl border p-4 md:p-6 bg-card shadow-sm">
+        <h3 class="text-lg font-medium mb-4">Динамика доходов (Line Chart)</h3>
+        <ChartContainer config={{ revenue: { label: "Доход", color: "var(--chart-1)" } }}>
+            <LineChart
+                data={[
+                    { month: "Янв", revenue: 4000 },
+                    { month: "Фев", revenue: 3000 },
+                    { month: "Мар", revenue: 5000 },
+                    { month: "Апр", revenue: 2780 },
+                    { month: "Май", revenue: 8900 },
+                    { month: "Июн", revenue: 5390 },
+                ]}
+                index="month"
+                category="revenue"
+                height={150}
+                padding={40}
+                breakpoints={{
+                    768: { height: 250, padding: 50 },
+                    1024: { height: 300, padding: 60 },
+                }}
+            />
+        </ChartContainer>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 2. Столбчатый вертикальный (Адаптивная высота и зазоры) -->
+        <div class="rounded-xl border p-4 md:p-6 bg-card shadow-sm">
+            <h3 class="text-lg font-medium mb-4">Запросы по месяцам (Bar Vertical)</h3>
+            <ChartContainer config={{ requests: { label: "Запросы", color: "var(--chart-2)" } }}>
+                <BarChart
+                    data={[
+                        { month: "Янв", requests: 4000, color: "var(--chart-1)" },
+                        { month: "Фев", requests: 3000, color: "var(--chart-2)" },
+                        { month: "Мар", requests: 5000, color: "var(--chart-3)" },
+                        { month: "Апр", requests: 2780, color: "var(--chart-4)" },
+                        { month: "Май", requests: 8900, color: "var(--chart-5)" },
+                    ]}
+                    index="month"
+                    category="requests"
+                    height={150}
+                    padding={40}
+                    barGap={20}
+                    breakpoints={{
+                        768: { height: 250, padding: 50, barGap: 30 },
+                    }}
+                />
+            </ChartContainer>
+        </div>
+
+        <!-- 3. Кольцевой график (Адаптивный размер) -->
+        <div class="rounded-xl border p-4 md:p-6 bg-card shadow-sm flex flex-col items-center">
+            <h3 class="text-lg font-medium mb-4 self-start">Источники (Donut Chart)</h3>
+            <DonutChart
+                data={[
+                    { label: "Органика", value: 4000, color: "var(--chart-1)" },
+                    { label: "Реклама", value: 3000, color: "var(--chart-2)" },
+                    { label: "Соцсети", value: 2000, color: "var(--chart-3)" },
+                    { label: "Прямой", value: 1000, color: "var(--chart-4)" },
+                ]}
+                size={140}
+                breakpoints={{
+                    768: { size: 200 },
+                }}
+            />
+        </div>
+    </div>
+
+    <!-- 4. Столбчатый горизонтальный (Адаптивная высота) -->
+    <div class="rounded-xl border p-4 md:p-6 bg-card shadow-sm">
+        <h3 class="text-lg font-medium mb-4">Топ отделов (Bar Horizontal)</h3>
+        <ChartContainer config={{ revenue: { label: "Доход", color: "var(--chart-3)" } }}>
+            <BarChart
+                orientation="horizontal"
+                data={[
+                    { dept: "Продажи", revenue: 4000, color: "var(--chart-1)" },
+                    { dept: "Маркетинг", revenue: 3000, color: "var(--chart-2)" },
+                    { dept: "Разработка", revenue: 8500, color: "var(--chart-3)" },
+                    { dept: "Бухгалтерия", revenue: 8900, color: "var(--chart-4)" },
+                ]}
+                index="dept"
+                category="revenue"
+                height={200}
+                padding={80}
+                barGap={15}
+                breakpoints={{
+                    768: { height: 280, padding: 120, barGap: 25 },
+                }}
+            />
+        </ChartContainer>
+    </div>
+</div>

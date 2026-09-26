@@ -1,0 +1,103 @@
+---
+import {
+    Menubar,
+    MenubarMenu,
+    MenubarTrigger,
+    MenubarContent,
+    MenubarItem,
+    MenubarSeparator,
+    MenubarCheckboxItem,
+    MenubarLabel,
+    MenubarShortcut,
+} from "../../components/ui/menubar";
+import {
+    FileText,
+    FolderOpen,
+    Save,
+    Settings,
+    Undo2,
+    Redo2,
+    Scissors,
+    Copy,
+    ClipboardPaste,
+    Eye,
+    ZoomIn,
+    ZoomOut,
+    Maximize,
+    HelpCircle,
+    Info,
+    Trash2,
+} from "@lucide/astro";
+---
+
+<!-- Контейнер, имитирующий окно приложения -->
+<div class="w-full max-w-3xl rounded-xl border bg-card shadow-sm overflow-hidden">
+    <!-- Сам Menubar -->
+    <div class="border-b px-2 pt-2 bg-muted/30">
+        <Menubar>
+            <!-- 1. МЕНЮ "ФАЙЛ" -->
+            <MenubarMenu>
+                <MenubarTrigger>Файл</MenubarTrigger>
+                <MenubarContent align="start" sideOffset={6} class="w-56">
+                    <MenubarItem><FileText /> Новый файл <MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
+                    <MenubarItem><FolderOpen /> Открыть... <MenubarShortcut>⌘O</MenubarShortcut></MenubarItem>
+                    <MenubarSeparator />
+                    <MenubarItem><Save /> Сохранить <MenubarShortcut>⌘S</MenubarShortcut></MenubarItem>
+                    <MenubarItem disabled>Сохранить как...</MenubarItem>
+                    <MenubarSeparator />
+                    <MenubarItem variant="destructive"
+                        ><Trash2 /> Удалить проект <MenubarShortcut>⌫</MenubarShortcut></MenubarItem
+                    >
+                </MenubarContent>
+            </MenubarMenu>
+
+            <!-- 2. МЕНЮ "ПРАВКА" -->
+            <MenubarMenu>
+                <MenubarTrigger>Правка</MenubarTrigger>
+                <MenubarContent align="start" sideOffset={6} class="w-48">
+                    <MenubarItem><Undo2 /> Отменить <MenubarShortcut>⌘Z</MenubarShortcut></MenubarItem>
+                    <MenubarItem><Redo2 /> Вернуть <MenubarShortcut>⌘⇧Z</MenubarShortcut></MenubarItem>
+                    <MenubarSeparator />
+                    <MenubarItem><Scissors /> Вырезать <MenubarShortcut>⌘X</MenubarShortcut></MenubarItem>
+                    <MenubarItem><Copy /> Копировать <MenubarShortcut>⌘C</MenubarShortcut></MenubarItem>
+                    <MenubarItem><ClipboardPaste /> Вставить <MenubarShortcut>⌘V</MenubarShortcut></MenubarItem>
+                </MenubarContent>
+            </MenubarMenu>
+
+            <!-- 3. МЕНЮ "ВИД" (С чекбоксами и лейблами) -->
+            <MenubarMenu>
+                <MenubarTrigger>Вид</MenubarTrigger>
+                <MenubarContent align="start" sideOffset={6} class="w-56">
+                    <MenubarLabel>Внешний вид</MenubarLabel>
+                    <MenubarCheckboxItem>Показать боковую панель</MenubarCheckboxItem>
+                    <MenubarCheckboxItem>Показать строку состояния</MenubarCheckboxItem>
+                    <MenubarSeparator />
+                    <MenubarLabel>Масштаб</MenubarLabel>
+                    <MenubarItem><ZoomIn /> Увеличить</MenubarItem>
+                    <MenubarItem><ZoomOut /> Уменьшить</MenubarItem>
+                    <MenubarItem><Maximize /> Сбросить масштаб</MenubarItem>
+                </MenubarContent>
+            </MenubarMenu>
+
+            <!-- 4. МЕНЮ "СПРАВКА" -->
+            <MenubarMenu>
+                <MenubarTrigger>Справка</MenubarTrigger>
+                <MenubarContent align="start" sideOffset={6} class="w-52">
+                    <MenubarItem><HelpCircle /> Документация</MenubarItem>
+                    <MenubarItem><HelpCircle /> Открыть на GitHub</MenubarItem>
+                    <MenubarSeparator />
+                    <MenubarItem><Info /> О программе</MenubarItem>
+                    <MenubarItem variant="destructive">Сообщить о баге</MenubarItem>
+                </MenubarContent>
+            </MenubarMenu>
+        </Menubar>
+    </div>
+
+    <!-- Контент "Приложения" -->
+    <div class="p-8 min-h-[300px] flex items-center justify-center">
+        <p class="text-muted-foreground text-center max-w-md">
+            <b>Инструкция:</b> Кликни на "Файл", чтобы открыть меню. Не отпуская кнопку мыши, переведи курсор на "Правка"
+            или "Вид" — меню переключится само. Кликни в любом пустом месте, чтобы закрыть панель.
+        </p>
+    </div>
+</div>

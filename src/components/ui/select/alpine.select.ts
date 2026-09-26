@@ -43,21 +43,44 @@ export default (Alpine: Alpine) => {
             this.open = false;
         },
 
-        forceHide(this: any) {
+        // Новый метод: мгновенно скрывает без поломки анимаций Alpine
+        instantHide(this: any) {
             this.open = false;
-            if (this.$refs.content) this.$refs.content.style.display = "none";
+            const content = this.$refs.content;
+            if (content) {
+                content.style.transition = "none";
+                content.style.opacity = "0";
+                content.style.transform = "scale(0.95)";
+            }
         },
 
         select(this: any, value: string, label: string) {
             this.selectedValue = value;
             this.selectedLabel = label;
             this.hide();
+
+            // МАГИЯ: Стреляем от кнопки-триггера!
+            // Она не телепортируется, значит событие 100% всплывёт к родителю локально.
+            if (this.$refs.trigger) {
+                this.$refs.trigger.dispatchEvent(
+                    new CustomEvent("select-change", {
+                        detail: value,
+                        bubbles: true,
+                        composed: true,
+                    }),
+                );
+            }
         },
 
         positionContent(this: any) {
             const trigger = this.$refs.trigger;
             const content = this.$refs.content;
             if (!trigger || !content) return;
+
+            // Сбрасываем инлайн-стили от instantHide, чтобы анимация открытия снова работала
+            content.style.transition = "";
+            content.style.opacity = "";
+            content.style.transform = "";
 
             const remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
             const offsetPx = parseFloat(this.sideOffset) || 0;
@@ -68,8 +91,6 @@ export default (Alpine: Alpine) => {
             const contentWidth = content.offsetWidth;
             const contentHeight = content.offsetHeight;
 
-            // МАГИЯ ШИРИНЫ: Устанавливаем ширину списка равной ширине кнопки!
-            // Переводим в rem, чтобы при зуме всё масштабировалось.
             content.style.width = triggerWidth / remInPx + "rem";
 
             let actualSide = this.side;
@@ -103,7 +124,6 @@ export default (Alpine: Alpine) => {
 
             content.style.top = topPx / remInPx + "rem";
             content.style.left = leftPx / remInPx + "rem";
-            content.style.display = "";
         },
     }));
 };

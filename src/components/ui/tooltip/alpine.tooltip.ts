@@ -10,9 +10,40 @@ export default (Alpine: Alpine) => {
         sideOffset: sideOffset,
         actualSide: side,
         timeout: undefined as ReturnType<typeof setTimeout> | undefined,
+        scrollHandler: null as (() => void) | null,
+
+        init(this: any) {
+            // Скрываем тултип при скролле страницы
+            this.scrollHandler = () => {
+                if (this.visible) {
+                    this.instantHide(); // Мгновенно без анимаций!
+                }
+            };
+            window.addEventListener("scroll", this.scrollHandler, { passive: true, capture: true });
+        },
+
+        destroy(this: any) {
+            if (this.timeout) clearTimeout(this.timeout);
+            if (this.scrollHandler) {
+                window.removeEventListener("scroll", this.scrollHandler, { capture: true } as EventListenerOptions);
+            }
+        },
 
         show(this: any) {
+            // Отключаем на мобилках
+            const isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+            if (!isDesktop) return;
+
             clearTimeout(this.timeout);
+
+            const tooltip = this.$refs.tooltip;
+            if (tooltip) {
+                // Сбрасываем инлайн-стили от instantHide, чтобы анимация открытия снова работала
+                tooltip.style.transition = "";
+                tooltip.style.opacity = "";
+                tooltip.style.transform = "";
+            }
+
             this.timeout = setTimeout(() => {
                 this.visible = true;
                 this.$nextTick(() => this.positionTooltip());
@@ -28,10 +59,17 @@ export default (Alpine: Alpine) => {
             }
         },
 
-        forceHide(this: any) {
+        // Метод для мгновенного скрытия (срубает анимацию под ноль)
+        instantHide(this: any) {
+            clearTimeout(this.timeout);
+            const tooltip = this.$refs.tooltip;
+            if (tooltip) {
+                // Убиваем анимацию и моментально делаем невидимым
+                tooltip.style.transition = "none";
+                tooltip.style.opacity = "0";
+                tooltip.style.transform = "scale(0.95)";
+            }
             this.visible = false;
-            // Мгновенное скрытие при скролле без анимации
-            if (this.$refs.tooltip) this.$refs.tooltip.style.display = "none";
         },
 
         positionTooltip(this: any) {
@@ -39,10 +77,7 @@ export default (Alpine: Alpine) => {
             const tooltip = this.$refs.tooltip;
             if (!trigger || !tooltip) return;
 
-            // Узнаем, сколько пикселей в 1rem (обычно 16)
             const remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
-
-            // sideOffset у нас в пикселях, так что просто используем его
             const offsetPx = this.sideOffset;
 
             const triggerRect = trigger.getBoundingClientRect();
@@ -53,7 +88,7 @@ export default (Alpine: Alpine) => {
 
             let actualSide = this.side;
 
-            // Логика переворота (работаем в пикселях)
+            // Логика переворота
             if (this.side === "top" && triggerRect.top < tooltipHeight + offsetPx) {
                 actualSide = "bottom";
             } else if (this.side === "bottom" && window.innerHeight - triggerRect.bottom < tooltipHeight + offsetPx) {
@@ -82,8 +117,7 @@ export default (Alpine: Alpine) => {
                 leftPx = triggerRect.left + triggerWidth + offsetPx;
             }
 
-            // МАГИЯ: Переводим финальные пиксели обратно в REM!
-            // 4px превратятся в 0.25rem (при шрифте 16px)
+            // Переводим финальные пиксели в REM
             tooltip.style.top = topPx / remInPx + "rem";
             tooltip.style.left = leftPx / remInPx + "rem";
         },

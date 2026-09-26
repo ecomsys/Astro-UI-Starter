@@ -1,0 +1,40 @@
+---
+import { cn } from "../../../lib/utils";
+
+export interface Props {
+    maxLength?: number;
+    class?: string;
+    [key: string]: any;
+}
+
+const { maxLength = 6, class: className, ...rest } = Astro.props;
+---
+
+<div
+    x-data={`inputOTP(${maxLength})`}
+    @click="focusInput()"
+    class={cn("relative flex items-center has-disabled:opacity-50", className)}
+    data-slot="input-otp"
+    {...rest}
+>
+    <!-- Скрытый нативный инпут. inputmode="numeric" открывает цифровую клавиатуру на мобилках -->
+    <input
+        x-ref="input"
+        type="text"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        class="absolute inset-0 z-10 w-full opacity-0 cursor-text"
+        @input="handleInput($event)"
+        @keydown="handleKeydown($event)"
+        @paste="handlePaste($event)"
+        @focus="activeIndex = value.length < maxLength ? value.length : maxLength - 1"
+        @blur="activeIndex = -1"
+        maxlength={maxLength}
+        aria-label="OTP Input"
+    />
+
+    <!-- Контейнер для визуальных слотов (кликабелен) -->
+    <div class="flex items-center pointer-events-none">
+        <slot />
+    </div>
+</div>

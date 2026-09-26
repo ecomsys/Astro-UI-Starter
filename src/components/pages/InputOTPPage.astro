@@ -1,0 +1,73 @@
+---
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "../../components/ui/input-otp";
+import { CheckCircle2, Loader2 } from "@lucide/astro";
+---
+
+<div
+    class="flex flex-col gap-6 items-center"
+    x-data="{ 
+      otp: '', 
+      isLoading: false, 
+      isVerified: false,
+      
+      verify(val) {
+        this.otp = val;
+        if (val.length < 6) {
+          this.isVerified = false;
+          this.isLoading = false;
+          return;
+        }
+        
+        this.isLoading = true;
+        this.isVerified = false;
+        
+        // Имитация запроса к серверу
+        setTimeout(() => {
+          this.isLoading = false;
+          this.isVerified = true;
+        }, 1500); 
+      }
+    }"
+>
+    <h3 class="text-lg font-medium">Введите код из СМС</h3>
+
+    <div class="flex flex-col items-center gap-4">
+        <!-- Слоты остаются на экране всегда! -->
+        <!-- Вешаем :class с opacity, чтобы визуально заблокировать ввод во время загрузки -->
+        <div :class="isLoading ? 'opacity-50 pointer-events-none' : ''">
+            <InputOTP maxLength={6} @otp-change="verify($event.detail)">
+                <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                </InputOTPGroup>
+
+                <InputOTPSeparator />
+
+                <InputOTPGroup>
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                </InputOTPGroup>
+            </InputOTP>
+        </div>
+
+        <!-- Блок статуса (высота фиксирована, чтобы не было скачков верстки) -->
+        <div class="h-6 flex items-center gap-2">
+            <!-- Состояние по умолчанию -->
+            <p x-show="!isLoading && !isVerified" class="text-xs text-muted-foreground">Код применится автоматически</p>
+
+            <!-- Состояние загрузки -->
+            <div x-show="isLoading" x-cloak class="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 class="size-4 animate-spin" />
+                Проверка кода...
+            </div>
+
+            <!-- Состояние успеха -->
+            <div x-show="isVerified" x-cloak class="flex items-center gap-2 text-sm text-green-600 font-medium">
+                <CheckCircle2 class="size-4" />
+                Телефон подтвержден!
+            </div>
+        </div>
+    </div>
+</div>

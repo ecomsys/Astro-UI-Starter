@@ -1,0 +1,124 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+import ComponentDoc from "../../components/ComponentDoc.astro";
+import Switch from "../../components/ui/Switch.astro";
+import Label from "../../components/ui/Label.astro";
+
+const basicCode = `import Switch from '../../components/ui/Switch.astro';
+import Label from '../../components/ui/Label.astro';
+
+<div class="flex items-center gap-3">
+  <Switch id="airplane-mode" />
+  <Label for="airplane-mode">Авиарежим</Label>
+</div>`;
+
+const sizesCode = `import Switch from '../../components/ui/Switch.astro';
+
+<!-- Маленький (size="sm") и Стандартный (default) -->
+<Switch size="sm" />
+<Switch />`;
+
+const statesCode = `import Switch from '../../components/ui/Switch.astro';
+
+<div class="flex items-center gap-6">
+  <!-- Выключен -->
+  <Switch />
+  <!-- Включен -->
+  <Switch checked />
+  <!-- Отключен (выключен) -->
+  <Switch disabled />
+  <!-- Отключен (включен) -->
+  <Switch checked disabled />
+</div>`;
+
+const settingsCode = `import Switch from '../../components/ui/Switch.astro';
+import Label from '../../components/ui/Label.astro';
+
+<div class="flex flex-col gap-4 w-full max-w-sm">
+  <div class="flex items-center justify-between">
+    <Label for="notif-1">Email уведомления</Label>
+    <Switch id="notif-1" checked />
+  </div>
+  <div class="flex items-center justify-between">
+    <Label for="notif-2">SMS уведомления</Label>
+    <Switch id="notif-2" />
+  </div>
+  <div class="flex items-center justify-between">
+    <Label for="notif-3">Push-уведомления</Label>
+    <Switch id="notif-3" disabled />
+  </div>
+</div>`;
+---
+
+<DashboardLayout title="Switch">
+    <div class="flex flex-col gap-10">
+        <!-- Заголовок страницы -->
+        <div class="flex flex-col gap-2">
+            <h1 class="text-3xl font-bold tracking-tight">Switch</h1>
+            <p class="text-muted-foreground text-lg">
+                Тумблер для включения/выключения настроек. Управляется с клавиатуры (Пробел), поддерживает отправку
+                данных в формы.
+            </p>
+        </div>
+
+        <!-- 1. БАЗОВЫЙ ТУМБЛЕР -->
+        <ComponentDoc
+            title="Базовый тумблер"
+            description="Связка переключателя и текстовой подписи (Label) через ID."
+            code={basicCode}
+        >
+            <div class="flex items-center gap-3">
+                <Switch id="airplane-mode" />
+                <Label for="airplane-mode">Авиарежим</Label>
+            </div>
+        </ComponentDoc>
+
+        <!-- 2. РАЗМЕРЫ -->
+        <ComponentDoc
+            title="Размеры (Sizes)"
+            description="Поддерживает пропс size='sm' для компактных интерфейсов."
+            code={sizesCode}
+        >
+            <div class="flex items-center gap-6">
+                <Switch size="sm" />
+                <Switch />
+            </div>
+        </ComponentDoc>
+
+        <!-- 3. СОСТОЯНИЯ -->
+        <ComponentDoc
+            title="Состояния (States)"
+            description="Выключенный, включенный и заблокированные варианты."
+            code={statesCode}
+        >
+            <div class="flex items-center gap-6">
+                <Switch />
+                <Switch checked />
+                <Switch disabled />
+                <Switch checked disabled />
+            </div>
+        </ComponentDoc>
+
+        <!-- 4. ПАНЕЛЬ НАСТРОЕК -->
+        <ComponentDoc
+            title="Настройки уведомлений"
+            description="Реальный пример использования. Подпись слева, тумблер справа (через justify-between)."
+            code={settingsCode}
+        >
+            <div class="flex flex-col gap-4 w-full max-w-sm">
+                <div class="flex items-center justify-between">
+                    <Label for="notif-1">Email уведомления</Label>
+                    <Switch id="notif-1" checked />
+                </div>
+                <div class="flex items-center justify-between">
+                    <Label for="notif-2">SMS уведомления</Label>
+                    <Switch id="notif-2" />
+                </div>
+                <div class="flex items-center justify-between">
+                    <Label for="notif-3">Push-уведомления</Label>
+                    <Switch id="notif-3" disabled />
+                </div>
+            </div>
+        </ComponentDoc>
+    </div>
+</DashboardLayout>

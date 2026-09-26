@@ -1,0 +1,48 @@
+---
+import { Popover, PopoverTrigger, PopoverContent } from "../../components/ui/popover";
+import { Calendar } from "../../components/ui/calendar";
+import Input from "../../components/ui/Input.astro";
+import { CalendarIcon } from "@lucide/astro";
+---
+
+<div class="flex flex-col gap-2 w-full">
+    <label class="text-sm font-medium">Дата рождения</label>
+
+    <!-- 1. Обертка с состоянием для хранения даты -->
+    <div x-data="{ selectedDate: null, formattedDate: '' }" class="w-full">
+        <Popover align="start">
+            <!-- 2. Триггер (оборачиваем Инпут) -->
+            <PopoverTrigger>
+                <div class="relative w-full">
+                    <!-- Инпут показывает formattedDate -->
+                    <Input :value="formattedDate" placeholder="Выберите дату..." readonly class="cursor-pointer pl-9" />
+                    <!-- Иконка календаря слева -->
+                    <CalendarIcon
+                        class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none"
+                    />
+                </div>
+            </PopoverTrigger>
+
+            <!-- 3. Контент Поповера (Сам Календарь) -->
+            <PopoverContent class="w-auto p-0">
+                <!-- 
+            Слушаем событие @date-select от Календаря. 
+            Когда дата выбрана -> сохраняем её, форматируем в читаемый вид и закрываем Поповер (open = false).
+          -->
+                <Calendar
+                    mode="single"
+                    @date-select="
+              selectedDate = $event.detail; 
+              formattedDate = selectedDate.toLocaleDateString('ru-RU'); 
+              open = false;
+            "
+                />
+            </PopoverContent>
+        </Popover>
+
+        <!-- Выводим сырую дату для проверки -->
+        <p class="mt-2 text-xs text-muted-foreground" x-show="selectedDate">
+            Выбрано (ISO): <span x-text="selectedDate?.toISOString()"></span>
+        </p>
+    </div>
+</div>

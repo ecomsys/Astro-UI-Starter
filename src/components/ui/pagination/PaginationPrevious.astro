@@ -6,20 +6,22 @@ import { ChevronLeftIcon } from "@lucide/astro";
 export interface Props {
     href?: string;
     isActive?: boolean;
+    disabled?: boolean;
     text?: string;
     class?: string;
     [key: string]: any;
 }
 
-const { href = "#", isActive = false, text = "Назад", class: className, ...rest } = Astro.props;
+const { href = "#", isActive = false, disabled = false, text = "Назад", class: className, ...rest } = Astro.props;
 ---
 
 <PaginationLink
-    href={href}
+    href={disabled ? undefined : href}
     isActive={isActive}
     size="default"
     aria-label="Go to previous page"
-    class={cn("pl-1.5!", className)}
+    aria-disabled={disabled ? "true" : undefined}
+    class={cn("pl-1.5!", disabled && "pointer-events-none opacity-50", className)}
     {...rest}
 >
     <ChevronLeftIcon data-icon="inline-start" />

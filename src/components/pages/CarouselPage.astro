@@ -1,0 +1,89 @@
+---
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselPrevious,
+    CarouselNext,
+    CarouselPagination,
+} from "../../components/ui/carousel";
+// Переключатель показа стрелок (для демонстрации)
+---
+
+<!-- 1. ЗАЦИКЛЕННАЯ КАРУСЕЛЬ (Все настройки тут!) -->
+<div class="w-full">
+    <Carousel
+        opts={{ loop: true }}
+        slidesPerView={1.2}
+        gap={16}
+        breakpoints={{ 768: { slidesPerView: 2.5, gap: 24 }, 1024: { slidesPerView: 3.5, gap: 32 } }}
+    >
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold">Зацикленная (Отступы и Loop работают)</h2>
+            <div class="flex gap-2"><CarouselPrevious /><CarouselNext /></div>
+        </div>
+
+        <div class="relative h-48">
+            <!-- CarouselContent пустой! -->
+            <CarouselContent>
+                <CarouselItem
+                    ><div class="border-2 border-red-500 rounded-xl h-full flex items-center justify-center bg-card">
+                        1
+                    </div></CarouselItem
+                >
+                <CarouselItem
+                    ><div class="border-2 border-blue-500 rounded-xl h-full flex items-center justify-center bg-card">
+                        2
+                    </div></CarouselItem
+                >
+                <CarouselItem
+                    ><div class="border-2 border-green-500 rounded-xl h-full flex items-center justify-center bg-card">
+                        3
+                    </div></CarouselItem
+                >
+                <CarouselItem
+                    ><div class="border-2 border-yellow-500 rounded-xl h-full flex items-center justify-center bg-card">
+                        4
+                    </div></CarouselItem
+                >
+            </CarouselContent>
+        </div>
+        <CarouselPagination class="justify-center mt-4" />
+    </Carousel>
+</div>
+
+<!-- 2. ОБЫЧНАЯ КАРУСЕЛЬ (Без loop, последний слайд прижат к краю) -->
+<div class="w-full">
+    <Carousel
+        opts={{ loop: false }}
+        slidesPerView={1.5}
+        gap={16}
+        breakpoints={{ 768: { slidesPerView: 2.5, gap: 24 } }}
+    >
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold">Без зацикливания (Нет правого отступа)</h2>
+            <div class="flex gap-2"><CarouselPrevious /><CarouselNext /></div>
+        </div>
+
+        <div class="relative h-48">
+            <CarouselContent>
+                <CarouselItem
+                    ><div class="border-2 border-purple-500 rounded-xl h-full flex items-center justify-center bg-card">
+                        1
+                    </div></CarouselItem
+                >
+                <CarouselItem
+                    ><div class="border-2 border-pink-500 rounded-xl h-full flex items-center justify-center bg-card">
+                        2
+                    </div></CarouselItem
+                >
+                <CarouselItem
+                    ><div class="border-2 border-orange-500 rounded-xl h-full flex items-center justify-center bg-card">
+                        3
+                    </div></CarouselItem
+                >
+            </CarouselContent>
+        </div>
+        <CarouselPagination class="justify-center mt-4" />
+    </Carousel>
+</div>

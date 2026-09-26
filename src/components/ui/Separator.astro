@@ -9,18 +9,10 @@ export interface Props {
 
 const { orientation = "horizontal", class: className, ...rest } = Astro.props;
 
-const baseClasses =
-    "shrink-0 bg-border data-horizontal:h-[0.0625rem] data-horizontal:w-full data-vertical:w-[0.0625rem] data-vertical:self-stretch";
-const computedClasses = cn(baseClasses, className);
+// Простые и надежные классы
+const orientationClasses = orientation === "horizontal" ? "h-[0.0625rem] w-full" : "h-full w-[0.0625rem] self-stretch";
+
+const computedClasses = cn("shrink-0 bg-border", orientationClasses, className);
 ---
 
-<div
-    data-slot="separator"
-    role="separator"
-    aria-orientation={orientation}
-    data-horizontal={orientation === "horizontal" ? "" : undefined}
-    data-vertical={orientation === "vertical" ? "" : undefined}
-    class={computedClasses}
-    {...rest}
->
-</div>
+<div data-slot="separator" role="separator" aria-orientation={orientation} class={computedClasses} {...rest}></div>

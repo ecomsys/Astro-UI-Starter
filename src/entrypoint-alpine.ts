@@ -10,10 +10,26 @@ import popover from "./components/ui/popover/alpine.popover";
 import contextMenu from "./components/ui/context-menu/alpine.contextMenu";
 import select from "./components/ui/select/alpine.select";
 import toaster from "./components/ui/sonner/alpine.toaster";
+import slider from "./components/ui/slider/alpine.slider";
+import carousel from "./components/ui/carousel/alpine.carousel";
+import resizible from "./components/ui/resizible/alpine.resizible";
+import navMenu from "./components/ui/navigation-menu/alpine.navMenu";
+import sidebar from "./components/ui/sidebar/alpine.sidebar";
+import menubar from "./components/ui/menubar/alpine.menubar";
+import command from "./components/ui/command/alpine.command";
+import inputOTP from "./components/ui/input-otp/alpine.inputOTP";
+import calendar from "./components/ui/calendar/alpine.calendar";
+
+import barChart from "./components/ui/chart/alpine.barChart";
+import donutChart from "./components/ui/chart/alpine.donutChart";
+import lineChart from "./components/ui/chart/alpine.lineChart";
+
+import wysiwygEditor from "./components/ui/wysiwyg-editor/alpine.wysiwyg-editor";
 
 export default (Alpine: Alpine) => {
     Alpine.plugin(collapse);
 
+    // компоненты
     tooltip(Alpine);
     dropdown(Alpine);
     scrollArea(Alpine);
@@ -22,8 +38,25 @@ export default (Alpine: Alpine) => {
     contextMenu(Alpine);
     select(Alpine);
     toaster(Alpine);
+    slider(Alpine);
+    carousel(Alpine);
+    resizible(Alpine);
+    navMenu(Alpine);
+    sidebar(Alpine);
+    menubar(Alpine);
+    command(Alpine);
+    inputOTP(Alpine);
+    calendar(Alpine);
 
-    // функция глобального управления скролом и оверлеем
+    // графики
+    barChart(Alpine);
+    donutChart(Alpine);
+    lineChart(Alpine);
+
+    // редактор
+    wysiwygEditor(Alpine);
+
+    // функция глобального управления скролом и оверлеем через альпину
     Alpine.data("overlay", () => ({
         open: false,
         scrollbarWidth: 0,
