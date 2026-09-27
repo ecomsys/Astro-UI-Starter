@@ -13,8 +13,6 @@ const { side = "bottom", align = "start", sideOffset = 4, class: className, ...r
 <div
     x-data={`menubarMenu('${side}', '${align}', ${sideOffset})`}
     x-on:mouseenter="hoverOpen()"
-    x-on:scroll.window="globalHide()"
-    x-on:resize.window="globalHide()"
     class={cn("relative inline-flex w-fit before:absolute before:inset-0 before:z-[-1] before:content-['']", className)}
     data-slot="menubar-menu"
     {...rest}

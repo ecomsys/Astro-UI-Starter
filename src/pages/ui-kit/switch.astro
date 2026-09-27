@@ -3,6 +3,7 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
 import ComponentDoc from "../../components/ComponentDoc.astro";
 import Switch from "../../components/ui/Switch.astro";
 import Label from "../../components/ui/Label.astro";
+import Button from "../../components/ui/Button.astro";
 
 const basicCode = `import Switch from '../../components/ui/Switch.astro';
 import Label from '../../components/ui/Label.astro';
@@ -48,6 +49,23 @@ import Label from '../../components/ui/Label.astro';
     <Switch id="notif-3" disabled />
   </div>
 </div>`;
+
+const formCode = `import Switch from '../../components/ui/Switch.astro';
+import Label from '../../components/ui/Label.astro';
+import Button from '../../components/ui/Button.astro';
+
+<!-- Одно name="settings" и разные value. FormData.getAll() соберет все включенные -->
+<form @submit.prevent="alert('Включено: ' + new FormData($event.target).getAll('settings').join(', '))" class="flex flex-col gap-4 w-full max-w-sm">
+  <div class="flex items-center justify-between">
+    <Label for="set-email">Email</Label>
+    <Switch id="set-email" name="settings" value="email" checked />
+  </div>
+  <div class="flex items-center justify-between">
+    <Label for="set-sms">SMS</Label>
+    <Switch id="set-sms" name="settings" value="sms" />
+  </div>
+  <Button type="submit" class="w-full">Отправить</Button>
+</form>`;
 ---
 
 <DashboardLayout title="Switch">
@@ -119,6 +137,28 @@ import Label from '../../components/ui/Label.astro';
                     <Switch id="notif-3" disabled />
                 </div>
             </div>
+        </ComponentDoc>
+
+        <!-- 5. ОТПРАВКА В ФОРМУ -->
+        <ComponentDoc
+            title="Отправка в форму (Form Submit)"
+            description="Используем один name='settings' и разные value. При сабмите FormData.getAll() соберет массив включенных тумблеров."
+            code={formCode}
+        >
+            <form
+                @submit.prevent="alert('Включено: ' + new FormData($event.target).getAll('settings').join(', '))"
+                class="flex flex-col gap-4 w-full max-w-sm"
+            >
+                <div class="flex items-center justify-between">
+                    <Label for="set-email">Email</Label>
+                    <Switch id="set-email" name="settings" value="email" checked />
+                </div>
+                <div class="flex items-center justify-between">
+                    <Label for="set-sms">SMS</Label>
+                    <Switch id="set-sms" name="settings" value="sms" />
+                </div>
+                <Button type="submit" class="w-full mt-2">Отправить</Button>
+            </form>
         </ComponentDoc>
     </div>
 </DashboardLayout>

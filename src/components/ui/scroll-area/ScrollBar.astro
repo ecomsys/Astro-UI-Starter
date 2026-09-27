@@ -11,35 +11,32 @@ const { orientation = "vertical", hover = false, class: className } = Astro.prop
 
 const containerClasses =
     orientation === "vertical"
-        ? "absolute right-0 top-0 bottom-0 flex w-2 flex-col"
-        : "absolute left-0 right-0 bottom-0 flex h-2 flex-row";
+        ? "absolute right-0 top-0 bottom-0 flex w-2.5 items-center flex-col"
+        : "absolute left-0 right-0 bottom-0 flex h-2.5 items-center flex-row";
 
-const thumbClasses = orientation === "vertical" ? "w-full cursor-pointer" : "h-full cursor-pointer";
+const thumbClasses = orientation === "vertical" ? "w-1.5 cursor-pointer" : "h-1.5 cursor-pointer";
 
-// ХИТРОСТЬ: Собираем строку для Alpine здесь.
-// Астро передаст её как текст, и не будет пытаться вычислить thumbHeight на сервере!
 const alpineStyleExpr =
     orientation === "vertical"
         ? "`height: ${thumbHeight}%; top: ${thumbTop}%`"
         : "`width: ${thumbWidth}%; left: ${thumbLeft}%`";
+
+// МАГИЯ ТУТ: Управление прозрачностью через инлайн-стиль (пуленепробиваемо для Tailwind)
+const hoverStyleExpr = hover ? `'opacity: ' + (isHovered ? 1 : 0)` : `''`;
 ---
 
 <div
     x-show={orientation === "vertical" ? "thumbHeight > 0" : "thumbWidth > 0"}
     x-cloak
-    class={cn(
-        "touch-none select-none transition-opacity duration-200",
-        containerClasses,
-        hover ? "opacity-0 group-hover:opacity-100" : "opacity-100",
-        className,
-    )}
+    x-bind:style={hoverStyleExpr}
+    class={cn("touch-none select-none transition-opacity duration-300", containerClasses, className)}
     data-slot="scroll-area-scrollbar"
 >
     <div
         @mousedown={orientation === "vertical" ? "startDragV($event)" : "startDragH($event)"}
         @touchstart={orientation === "vertical" ? "startDragV($event)" : "startDragH($event)"}
         x-bind:style={alpineStyleExpr}
-        class={cn("relative rounded-full bg-border hover:bg-primary/20 transition-colors", thumbClasses)}
+        class={cn("relative rounded-full bg-foreground/20 hover:bg-foreground/40 transition-colors", thumbClasses)}
         data-slot="scroll-area-thumb"
     >
     </div>

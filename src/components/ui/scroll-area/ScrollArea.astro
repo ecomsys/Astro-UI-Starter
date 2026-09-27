@@ -14,8 +14,12 @@ const { hover = false, horizontal = false, class: className, ...rest } = Astro.p
 
 <div
     x-data="scrollArea()"
+    @mouseenter="isHovered = true"
+    @mouseleave="isHovered = false"
     @mousemove.window="onDrag($event)"
     @mouseup.window="stopDrag()"
+    @touchmove.window="onDrag($event)"
+    @touchend.window="stopDrag()"
     class={cn("relative overflow-hidden group", className)}
     data-slot="scroll-area"
     {...rest}
@@ -29,9 +33,6 @@ const { hover = false, horizontal = false, class: className, ...rest } = Astro.p
         <slot />
     </div>
 
-    <!-- Вертикальный скролл (всегда) -->
     <ScrollBar orientation="vertical" hover={hover} />
-
-    <!-- Горизонтальный скролл (по запросу) -->
     {horizontal && <ScrollBar orientation="horizontal" hover={hover} />}
 </div>

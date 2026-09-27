@@ -2,13 +2,6 @@
 import type { Alpine } from "alpinejs";
 
 export default (Alpine: Alpine) => {
-    Alpine.store("menubar", {
-        active: false,
-        closeAll() {
-            window.dispatchEvent(new CustomEvent("menubar-close-all"));
-        },
-    });
-
     Alpine.data("menubarMenu", (side = "bottom", align = "start", sideOffset = 4) => ({
         open: false,
         side,
@@ -16,6 +9,17 @@ export default (Alpine: Alpine) => {
         sideOffset,
         actualSide: side,
         outsideClickListener: null as any,
+        siblingCloseListener: null as any,
+        scrollHandler: null as any, // <--- Добавили
+        resizeListener: null as any,
+
+        getRootData(this: any) {
+            const rootEl = this.$el.closest('[data-slot="menubar"]');
+            if (rootEl) {
+                return Alpine.$data(rootEl);
+            }
+            return null;
+        },
 
         init(this: any) {
             this.outsideClickListener = (e: MouseEvent) => {
@@ -23,54 +27,110 @@ export default (Alpine: Alpine) => {
                 const trigger = this.$refs.trigger;
                 const content = this.$refs.content;
                 if (trigger && !trigger.contains(e.target) && content && !content.contains(e.target)) {
-                    this.forceHide();
-                    (Alpine.store("menubar") as any).active = false; // Сброс режима только при клике ВНЕ зоны
+                    this.globalHide();
                 }
             };
             document.addEventListener("click", this.outsideClickListener);
-            window.addEventListener("menubar-close-all", () => this.forceHide());
+
+            this.siblingCloseListener = (e: any) => {
+                if (e.detail !== this.$el) this.instantHide();
+            };
+            const rootData = this.getRootData();
+            if (rootData && rootData.$el) {
+                rootData.$el.addEventListener("close-siblings", this.siblingCloseListener);
+            }
+
+            // МАГИКА ТУТ: Умный скролл! Едем следом за триггером
+            this.scrollHandler = () => {
+                if (!this.open) return;
+                const trigger = this.$refs.trigger;
+                if (!trigger) return;
+                const rect = trigger.getBoundingClientRect();
+
+                if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                    this.globalHide();
+                } else {
+                    this.positionContent();
+                }
+            };
+            window.addEventListener("scroll", this.scrollHandler, { passive: true, capture: true });
+
+            // Ресайз: Просто закрываем, чтобы не рвало вёрстку
+            this.resizeListener = () => {
+                this.$nextTick(() => this.positionContent());
+                if (this.open) this.open = false;
+            };
+            window.addEventListener("resize", this.resizeListener);
         },
 
         destroy(this: any) {
             document.removeEventListener("click", this.outsideClickListener);
+            const rootData = this.getRootData();
+            if (rootData && rootData.$el && this.siblingCloseListener) {
+                rootData.$el.removeEventListener("close-siblings", this.siblingCloseListener);
+            }
+            if (this.scrollHandler) {
+                window.removeEventListener("scroll", this.scrollHandler, { capture: true } as EventListenerOptions);
+            }
+            if (this.resizeListener) window.removeEventListener("resize", this.resizeListener);
         },
 
         toggle(this: any) {
+            const rootData = this.getRootData();
             if (this.open) {
-                this.forceHide();
-                (Alpine.store("menubar") as any).active = false;
+                this.globalHide();
             } else {
-                (Alpine.store("menubar") as any).closeAll();
-                (Alpine.store("menubar") as any).active = true;
+                if (rootData && rootData.$el) {
+                    rootData.$el.dispatchEvent(new CustomEvent("close-siblings", { detail: this.$el }));
+                }
+                if (rootData) rootData.active = true;
                 this.open = true;
                 this.$nextTick(() => this.positionContent());
             }
         },
 
         hoverOpen(this: any) {
-            if ((Alpine.store("menubar") as any).active && !this.open) {
-                (Alpine.store("menubar") as any).closeAll();
+            const rootData = this.getRootData();
+            if (rootData && rootData.active && !this.open) {
+                if (rootData.$el) {
+                    rootData.$el.dispatchEvent(new CustomEvent("close-siblings", { detail: this.$el }));
+                }
                 this.open = true;
                 this.$nextTick(() => this.positionContent());
             }
         },
 
-        // ВОЗВРАЩАЕМ ЧИСТЫЙ forceHide! Он больше не трогает active.
-        forceHide(this: any) {
+        // НОВЫЙ МЕТОД: Мгновенно скрывает без поломки анимаций
+        instantHide(this: any) {
             this.open = false;
-            if (this.$refs.content) this.$refs.content.style.display = "none";
+            const content = this.$refs.content;
+            if (content) {
+                content.style.transition = "none";
+                content.style.opacity = "0";
+                content.style.transform = "scale(0.95)";
+            }
         },
 
-        // НОВЫЙ МЕТОД: Для глобальных событий (скролл/ресайз)
+        forceHide(this: any) {
+            this.instantHide();
+        },
+
         globalHide(this: any) {
-            this.forceHide();
-            (Alpine.store("menubar") as any).active = false;
+            this.instantHide();
+            const rootData = this.getRootData();
+            if (rootData) rootData.active = false;
+            this.$nextTick(() => this.positionContent());
         },
 
         positionContent(this: any) {
             const trigger = this.$refs.trigger;
             const content = this.$refs.content;
             if (!trigger || !content) return;
+
+            // Сбрасываем стили от instantHide
+            content.style.transition = "";
+            content.style.opacity = "";
+            content.style.transform = "";
 
             const remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
             const offsetPx = parseFloat(this.sideOffset) || 0;

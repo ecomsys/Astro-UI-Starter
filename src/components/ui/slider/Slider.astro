@@ -6,11 +6,12 @@ export interface Props {
     min?: number;
     max?: number;
     step?: number;
+    name?: string; // <--- Добавили пропс для форм
     class?: string;
     [key: string]: any;
 }
 
-const { defaultValue = [0], min = 0, max = 100, step = 1, class: className, ...rest } = Astro.props;
+const { defaultValue = [0], min = 0, max = 100, step = 1, name, class: className, ...rest } = Astro.props;
 
 const initialValues = Array.isArray(defaultValue) ? defaultValue : [defaultValue];
 const isArray = JSON.stringify(initialValues);
@@ -49,4 +50,9 @@ const isArray = JSON.stringify(initialValues);
         >
         </div>
     </template>
+
+    <!-- СКРЫТЫЙ ИНПУТ ДЛЯ ОТПРАВКИ В ФОРМУ -->
+    {name && (
+        <input type="hidden" name={name} :value="values.join(',')" />
+    )}
 </div>

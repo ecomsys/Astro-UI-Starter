@@ -11,7 +11,7 @@ const { variant = "default", inset = false, class: className, ...rest } = Astro.
 
 <button
     type="button"
-    x-on:click="forceHide(); $store.menubar.active = false"
+    x-on:click="forceHide(); $root.active = false"
     data-slot="menubar-item"
     data-variant={variant}
     data-inset={inset ? "" : undefined}

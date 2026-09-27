@@ -2,6 +2,7 @@
 import DashboardLayout from "../../layouts/DashboardLayout.astro";
 import ComponentDoc from "../../components/ComponentDoc.astro";
 import Slider from "../../components/ui/slider/Slider.astro";
+import Button from "../../components/ui/Button.astro";
 
 const basicCode = `import Slider from '../../components/ui/Slider.astro';
 
@@ -41,6 +42,15 @@ const rangeDynamicCode = `import Slider from '../../components/ui/Slider.astro';
   </div>
   <Slider defaultValue={[2500, 7500]} max={10000} step={100} @input="minPrice = $event.detail.values[0]; maxPrice = $event.detail.values[1]" />
 </div>`;
+
+const formCode = `import Slider from '../../components/ui/Slider.astro';
+import Button from '../../components/ui/Button.astro';
+
+<!-- Просто навешиваем name="price" и всё улетит на сервер (через запятую, если диапазон) -->
+<form @submit.prevent="alert('Цена: ' + new FormData($event.target).get('price'))" class="flex flex-col gap-6 w-full max-w-xs">
+  <Slider defaultValue={[2500, 7500]} name="price" max={10000} step={100} />
+  <Button type="submit" class="w-full">Отправить</Button>
+</form>`;
 ---
 
 <DashboardLayout title="Slider">
@@ -50,7 +60,7 @@ const rangeDynamicCode = `import Slider from '../../components/ui/Slider.astro';
             <h1 class="text-3xl font-bold tracking-tight">Slider</h1>
             <p class="text-muted-foreground text-lg">
                 Компонент для выбора числового значения или диапазона. Поддерживает свайп мышкой и пальцем (Pointer
-                Events).
+                Events), а также отправку данных в формы.
             </p>
         </div>
 
@@ -124,6 +134,21 @@ const rangeDynamicCode = `import Slider from '../../components/ui/Slider.astro';
                     @input="minPrice = $event.detail.values[0]; maxPrice = $event.detail.values[1]"
                 />
             </div>
+        </ComponentDoc>
+
+        <!-- 6. ОТПРАВКА В ФОРМУ -->
+        <ComponentDoc
+            title="Отправка в форму (Form Submit)"
+            description="Просто передай пропс name, и компонент создаст скрытый input. Значения (для диапазона — через запятую) улетят на сервер."
+            code={formCode}
+        >
+            <form
+                @submit.prevent="alert('Цена: ' + new FormData($event.target).get('price'))"
+                class="flex flex-col gap-6 w-full max-w-xs px-2"
+            >
+                <Slider defaultValue={[2500, 7500]} name="price" max={10000} step={100} />
+                <Button type="submit" class="w-full">Отправить</Button>
+            </form>
         </ComponentDoc>
     </div>
 </DashboardLayout>

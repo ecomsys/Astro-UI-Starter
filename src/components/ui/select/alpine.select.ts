@@ -11,6 +11,8 @@ export default (Alpine: Alpine) => {
         sideOffset: sideOffset,
         actualSide: side,
         outsideClickListener: null as any,
+        scrollHandler: null as any, // <--- Добавили
+        resizeListener: null as any,
 
         init(this: any) {
             this.outsideClickListener = (e: MouseEvent) => {
@@ -22,12 +24,40 @@ export default (Alpine: Alpine) => {
                 }
             };
             document.addEventListener("click", this.outsideClickListener);
+
+            // МАГИКА ТУТ: Умный скролл! Едем следом за триггером
+            this.scrollHandler = () => {
+                if (!this.open) return;
+                const trigger = this.$refs.trigger;
+                if (!trigger) return;
+                const rect = trigger.getBoundingClientRect();
+
+                // Если триггер ушел за пределы экрана — закрываем
+                if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                    this.instantHide();
+                } else {
+                    // Иначе — пересчитываем координаты
+                    this.positionContent();
+                }
+            };
+            window.addEventListener("scroll", this.scrollHandler, { passive: true, capture: true });
+
+            // Ресайз: Просто закрываем, чтобы не рвало вёрстку
+            this.resizeListener = () => {
+                this.$nextTick(() => this.positionContent());
+                if (this.open) this.open = false;
+            };
+            window.addEventListener("resize", this.resizeListener);
         },
 
         destroy(this: any) {
             if (this.outsideClickListener) {
                 document.removeEventListener("click", this.outsideClickListener);
             }
+            if (this.scrollHandler) {
+                window.removeEventListener("scroll", this.scrollHandler, { capture: true } as EventListenerOptions);
+            }
+            if (this.resizeListener) window.removeEventListener("resize", this.resizeListener);
         },
 
         toggle(this: any) {
@@ -43,7 +73,6 @@ export default (Alpine: Alpine) => {
             this.open = false;
         },
 
-        // Новый метод: мгновенно скрывает без поломки анимаций Alpine
         instantHide(this: any) {
             this.open = false;
             const content = this.$refs.content;
@@ -59,8 +88,6 @@ export default (Alpine: Alpine) => {
             this.selectedLabel = label;
             this.hide();
 
-            // МАГИЯ: Стреляем от кнопки-триггера!
-            // Она не телепортируется, значит событие 100% всплывёт к родителю локально.
             if (this.$refs.trigger) {
                 this.$refs.trigger.dispatchEvent(
                     new CustomEvent("select-change", {
@@ -77,7 +104,6 @@ export default (Alpine: Alpine) => {
             const content = this.$refs.content;
             if (!trigger || !content) return;
 
-            // Сбрасываем инлайн-стили от instantHide, чтобы анимация открытия снова работала
             content.style.transition = "";
             content.style.opacity = "";
             content.style.transform = "";

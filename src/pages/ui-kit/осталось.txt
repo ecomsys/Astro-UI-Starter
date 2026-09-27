@@ -1,62 +1,17 @@
-Давай я проанализирую, кого именно нам не хватает. У нас уже готовы страницы для:
+___Date Picker
+___Drawer
+___Combobox
+___Direction
 
-Button ✅
-Input & Forms ✅
-Card ✅
-Badge ✅
-Avatar ✅
-Separator ✅
-Skeleton ✅
-Checkbox ✅
-Switch ✅
-Slider ✅
-Select ✅
-Tabs ✅
-Accordion ✅
-Breadcrumb ✅
-Pagination ✅
-Dialog ✅
-Sheet ✅
-Popover ✅
-Tooltip ✅
-Hover Card ✅
-Alert ✅
-Table ✅
-Empty ✅
-Command ✅
-Calendar ✅
-Charts ✅
-Carousel ✅
-WYSIWYG Editor ✅
-Вот что мы ЗАБЫЛИ (23 компонента!):
+Attachment
+Message
+Bubble
+Data Table
+Item
+Marker
+Message Scroller
+Questionnaire
 
-📦 Базовые:
-Kbd — отображение горячих клавиш
-Spinner — крутящийся загрузчик
-Progress — полоса прогресса
-AspectRatio — пропорции контейнера
+npx shadcn@latest add date-picker drawer attachment message bubble combobox data-table direction item marker message-scroller questionnaire
 
-📝 Формы:
-Field — обертка над инпутами (Label + Input + Error)
-InputGroup — инпут с иконками внутри
-NativeSelect — стилизованный нативный <select>
-InputOTP — ввод кода из СМС по ячейкам
-RadioGroup — радио-кнопки
-Textarea — многострочное поле (отдельной страницей)
-Label — подписи к полям (отдельной страницей)
 
-🧭 Навигация:
-NavigationMenu — мега-меню в шапке сайта
-Menubar — меню как в Photoshop/VS Code
-Collapsible — простая сворачивалка
-🪟 Оверлеи:
-AlertDialog — модалка подтверждения (нельзя закрыть по клику вне зоны)
-ContextMenu — меню по правой кнопке мыши
-Sonner — всплывающие уведомления (Toasts)
-
-📊 Отображение:
-Toggle — кнопка-переключатель (как Bold/Italic)
-ToggleGroup — группа переключателей
-ButtonGroup — группа кнопок (склеенные)
-ScrollArea — кастомный скроллбар
-Resizable — изменяемые панели

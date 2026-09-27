@@ -5,17 +5,24 @@ export interface Props {
     side?: "top" | "bottom" | "left" | "right";
     align?: "start" | "center" | "end";
     sideOffset?: number;
+    matchWidth?: boolean; // <--- Добавлено
     class?: string;
     [key: string]: any;
 }
 
-const { side = "bottom", align = "center", sideOffset = 4, class: className, ...rest } = Astro.props;
+const {
+    side = "bottom",
+    align = "center",
+    sideOffset = 4,
+    matchWidth = false, // <--- Добавлено
+    class: className,
+    ...rest
+} = Astro.props;
 ---
 
 <div
-    x-data={`popover('${side}', '${align}', ${sideOffset})`}
+    x-data={`popover('${side}', '${align}', ${sideOffset}, ${matchWidth})`}
     x-on:keydown.escape.window="hide()"
-    x-on:scroll.window="forceHide()"
     class={cn("relative inline-flex w-fit", className)}
     data-slot="popover"
     {...rest}

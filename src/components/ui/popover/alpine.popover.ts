@@ -2,32 +2,62 @@
 import type { Alpine } from "alpinejs";
 
 export default (Alpine: Alpine) => {
-    Alpine.data("popover", (side = "bottom", align = "center", sideOffset = 4) => ({
+    Alpine.data("popover", (side = "bottom", align = "center", sideOffset = 4, matchWidth = false) => ({
         open: false,
         side: side,
         align: align,
         sideOffset: sideOffset,
+        matchWidth: matchWidth,
         actualSide: side,
         outsideClickListener: null as any,
+        scrollHandler: null as any, // <--- Добавили
+        resizeListener: null as any, // <--- Добавили
 
         init(this: any) {
-            // Создаем умный слушатель кликов вне зоны
             this.outsideClickListener = (e: MouseEvent) => {
                 if (!this.open) return;
                 const trigger = this.$refs.trigger;
                 const content = this.$refs.content;
-                // Если клик не по триггеру и не по контенту — закрываем
                 if (trigger && !trigger.contains(e.target) && content && !content.contains(e.target)) {
                     this.hide();
                 }
             };
             document.addEventListener("click", this.outsideClickListener);
+
+            // МАГИКА СКРОЛЛА: Едем следом за триггером
+            this.scrollHandler = () => {
+                if (!this.open) return;
+                const trigger = this.$refs.trigger;
+                if (!trigger) return;
+                const rect = trigger.getBoundingClientRect();
+
+                if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                    this.instantHide();
+                } else {
+                    this.positionContent();
+                }
+            };
+            window.addEventListener("scroll", this.scrollHandler, { passive: true, capture: true });
+
+            // МАГИКА РЕСАЙЗА: Сначала двигаем, потом закрываем (без рывков)
+            this.resizeListener = () => {
+                this.$nextTick(() => this.positionContent());
+                if (this.open) {
+                    this.open = false;
+                }
+            };
+            window.addEventListener("resize", this.resizeListener);
         },
 
         destroy(this: any) {
-            // Чистим память при удалении компонента
             if (this.outsideClickListener) {
                 document.removeEventListener("click", this.outsideClickListener);
+            }
+            if (this.scrollHandler) {
+                window.removeEventListener("scroll", this.scrollHandler, { capture: true } as EventListenerOptions);
+            }
+            if (this.resizeListener) {
+                window.removeEventListener("resize", this.resizeListener);
             }
         },
 
@@ -44,10 +74,19 @@ export default (Alpine: Alpine) => {
             this.open = false;
         },
 
-        forceHide(this: any) {
+        // НОВЫЙ МЕТОД: Мгновенно скрывает без поломки анимаций Alpine
+        instantHide(this: any) {
             this.open = false;
-            // Мгновенное скрытие при скролле без анимации
-            if (this.$refs.content) this.$refs.content.style.display = "none";
+            const content = this.$refs.content;
+            if (content) {
+                content.style.transition = "none";
+                content.style.opacity = "0";
+                content.style.transform = "scale(0.95)";
+            }
+        },
+
+        forceHide(this: any) {
+            this.instantHide();
         },
 
         positionContent(this: any) {
@@ -55,12 +94,24 @@ export default (Alpine: Alpine) => {
             const content = this.$refs.content;
             if (!trigger || !content) return;
 
+            // Сбрасываем стили от instantHide
+            content.style.transition = "";
+            content.style.opacity = "";
+            content.style.transform = "";
+
             const remInPx = parseFloat(getComputedStyle(document.documentElement).fontSize);
             const offsetPx = parseFloat(this.sideOffset) || 0;
 
             const triggerRect = trigger.getBoundingClientRect();
             const triggerWidth = trigger.offsetWidth;
             const triggerHeight = trigger.offsetHeight;
+
+            if (this.matchWidth) {
+                content.style.width = triggerWidth / remInPx + "rem";
+            } else {
+                content.style.width = "";
+            }
+
             const contentWidth = content.offsetWidth;
             const contentHeight = content.offsetHeight;
 
@@ -98,8 +149,6 @@ export default (Alpine: Alpine) => {
 
             content.style.top = topPx / remInPx + "rem";
             content.style.left = leftPx / remInPx + "rem";
-            // Сбрасываем жесткое скрытие, чтобы анимация открытия сработала
-            content.style.display = "";
         },
     }));
 };

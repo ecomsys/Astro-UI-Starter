@@ -2,11 +2,12 @@
 import type { Alpine } from "alpinejs";
 
 export default (Alpine: Alpine) => {
-    Alpine.data("navMenu", (side = "bottom", align = "start", sideOffset = 8) => ({
+    Alpine.data("navMenu", (side = "bottom", align = "start", sideOffset = 8, fullWidth = false) => ({
         open: false,
         side: side,
         align: align,
         sideOffset: sideOffset,
+        fullWidth: fullWidth,
         actualSide: side,
         timeout: undefined as ReturnType<typeof setTimeout> | undefined,
 
@@ -14,7 +15,6 @@ export default (Alpine: Alpine) => {
         closeNavListener: null as any,
         scrollHandler: null as any,
 
-        // Генерируем уникальный ID для каждого экземпляра меню
         id: Math.random().toString(36).substring(2),
 
         init(this: any) {
@@ -31,15 +31,23 @@ export default (Alpine: Alpine) => {
             document.addEventListener("click", this.outsideClickListener);
 
             this.closeNavListener = (e: any) => {
-                // Если открылось другое меню, тоже закрываемся МГНОВЕННО
                 if (e.detail !== self.id) self.instantHide();
             };
             window.addEventListener("close-nav-menus", this.closeNavListener);
 
-            // Закрытие при скролле страницы
+            // МАГИКА ТУТ: Едем следом за триггером при скролле!
             this.scrollHandler = () => {
-                if (self.open) {
-                    self.instantHide(); // Мгновенно без анимаций!
+                if (!self.open) return;
+                const trigger = self.$refs.trigger;
+                if (!trigger) return;
+                const rect = trigger.getBoundingClientRect();
+
+                // Если триггер ушел за пределы экрана — закрываем
+                if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                    self.instantHide();
+                } else {
+                    // Иначе — пересчитываем координаты и едем за ним
+                    self.positionContent();
                 }
             };
             window.addEventListener("scroll", this.scrollHandler, { passive: true, capture: true });
@@ -58,7 +66,6 @@ export default (Alpine: Alpine) => {
 
             const content = this.$refs.content;
             if (content) {
-                // Сбрасываем инлайн-стили от instantHide, чтобы анимация открытия снова работала
                 content.style.transition = "";
                 content.style.opacity = "";
                 content.style.transform = "";
@@ -76,7 +83,6 @@ export default (Alpine: Alpine) => {
             }, 150);
         },
 
-        // Метод для мгновенного скрытия (срубает анимацию под ноль)
         instantHide(this: any) {
             clearTimeout(this.timeout);
             const content = this.$refs.content;
@@ -136,6 +142,18 @@ export default (Alpine: Alpine) => {
                 if (this.align === "start") topPx = triggerRect.top;
                 else if (this.align === "center") topPx = triggerRect.top + triggerHeight / 2 - contentHeight / 2;
                 else if (this.align === "end") topPx = triggerRect.bottom - contentHeight;
+            }
+
+            if (this.fullWidth) {
+                topPx = triggerRect.bottom + offsetPx;
+                leftPx = 0;
+                content.style.right = "0";
+                content.style.width = "100%";
+                content.style.maxWidth = "100%";
+            } else {
+                content.style.right = "auto";
+                content.style.width = "";
+                content.style.maxWidth = "";
             }
 
             content.style.top = topPx / remInPx + "rem";

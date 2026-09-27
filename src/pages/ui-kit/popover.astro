@@ -12,95 +12,91 @@ import {
 import Button from "../../components/ui/Button.astro";
 import Input from "../../components/ui/Input.astro";
 import Label from "../../components/ui/Label.astro";
+
 const basicCode = `import { Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverTitle, PopoverDescription } from '../../components/ui/popover';
 import Button from '../../components/ui/Button.astro';
 
-<Popover>
-  <PopoverTrigger>
-    <Button variant="outline">Настройки панели</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    <PopoverHeader>
-      <PopoverTitle>Размер панели</PopoverTitle>
-      <PopoverDescription>Выберите ширину для вашего дашборда.</PopoverDescription>
-    </PopoverHeader>
-    tgth
-    <div class="flex gap-2 mt-2">
-      <Button variant="secondary" size="sm" class="flex-1">100%</Button>
-      <Button variant="outline" size="sm" class="flex-1">Авто</Button>
-    </div>
-  </PopoverContent>
-</Popover>`;
+<div class="flex justify-center py-8">
+  <Popover>
+    <PopoverTrigger>
+      <Button variant="outline">Настройки панели</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <PopoverHeader>
+        <PopoverTitle>Размер панели</PopoverTitle>
+        <PopoverDescription>Выберите ширину для вашего дашборда.</PopoverDescription>
+      </PopoverHeader>
+      <div class="flex gap-2 mt-2">
+        <Button variant="secondary" size="sm" class="flex-1">100%</Button>
+        <Button variant="outline" size="sm" class="flex-1">Авто</Button>
+      </div>
+    </PopoverContent>
+  </Popover>
+</div>`;
 
 const formCode = `import { Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverTitle, PopoverDescription } from '../../components/ui/popover';
 import Button from '../../components/ui/Button.astro';
 import Input from '../../components/ui/Input.astro';
 import Label from '../../components/ui/Label.astro';
 
-<Popover>
-  <PopoverTrigger>
-    <Button variant="secondary">Создать команду</Button>
-  </PopoverTrigger>
-  <!-- Задаем ширину через max-w-sm -->
-  <PopoverContent class="w-80">
-    <PopoverHeader>
-      <PopoverTitle>Новая команда</PopoverTitle>
-      <PopoverDescription>Введите название для новой рабочей группы.</PopoverDescription>
-    </PopoverHeader>
-    
-    <div class="flex flex-col gap-2">
-      <Label for="team-name">Название</Label>
-      <Input id="team-name" placeholder="Например: Design Team" />
-    </div>
-    
-    <div class="flex justify-end gap-2 mt-4">
-      <!-- Метод hide() закрывает поповер -->
-      <Button variant="outline" size="sm" x-on:click="hide()">Отмена</Button>
-      <Button size="sm" x-on:click="hide()">Создать</Button>
-    </div>
-  </PopoverContent>
-</Popover>`;
+<div class="flex justify-center py-8">
+  <Popover>
+    <PopoverTrigger>
+      <Button variant="secondary">Создать команду</Button>
+    </PopoverTrigger>
+    <PopoverContent class="w-80">
+      <PopoverHeader>
+        <PopoverTitle>Новая команда</PopoverTitle>
+        <PopoverDescription>Введите название для новой рабочей группы.</PopoverDescription>
+      </PopoverHeader>
+      
+      <div class="flex flex-col gap-2">
+        <Label for="team-name">Название</Label>
+        <Input id="team-name" placeholder="Например: Design Team" />
+      </div>
+      
+      <div class="flex justify-end gap-2 mt-4">
+        <Button variant="outline" size="sm" x-on:click="hide()">Отмена</Button>
+        <Button size="sm" x-on:click="hide()">Создать</Button>
+      </div>
+    </PopoverContent>
+  </Popover>
+</div>`;
 
 const sidesCode = `import { Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverTitle } from '../../components/ui/popover';
 import Button from '../../components/ui/Button.astro';
 
-<!-- Сверху по центру (side="top" align="center") -->
-<Popover side="top" align="center">
-  <PopoverTrigger><Button variant="outline">Сверху</Button></PopoverTrigger>
-  <PopoverContent>
-    <PopoverHeader><PopoverTitle>Сверху по центру</PopoverTitle></PopoverHeader>
-  </PopoverContent>
-</Popover>
+<div class="flex flex-wrap gap-4 justify-center py-12">
+  <Popover side="top" align="center">
+    <PopoverTrigger><Button variant="outline">Сверху</Button></PopoverTrigger>
+    <PopoverContent>
+      <PopoverHeader><PopoverTitle>Сверху по центру</PopoverTitle></PopoverHeader>
+    </PopoverContent>
+  </Popover>
 
-<!-- Снизу слева (side="bottom" align="start") -->
-<Popover side="bottom" align="start">
-  <PopoverTrigger><Button variant="outline">Снизу (Старт)</Button></PopoverTrigger>
-  <PopoverContent>
-    <PopoverHeader><PopoverTitle>Снизу слева</PopoverTitle></PopoverHeader>
-  </PopoverContent>
-</Popover>
+  <Popover side="bottom" align="start">
+    <PopoverTrigger><Button variant="outline">Снизу (Старт)</Button></PopoverTrigger>
+    <PopoverContent>
+      <PopoverHeader><PopoverTitle>Снизу слева</PopoverTitle></PopoverHeader>
+    </PopoverContent>
+  </Popover>
 
-<!-- Снизу справа (side="bottom" align="end") -->
-<Popover side="bottom" align="end">
-  <PopoverTrigger><Button variant="outline">Снизу (Конец)</Button></PopoverTrigger>
-  <PopoverContent>
-    <PopoverHeader><PopoverTitle>Снизу справа</PopoverTitle></PopoverHeader>
-  </PopoverContent>
-</Popover>`;
+  <Popover side="bottom" align="end">
+    <PopoverTrigger><Button variant="outline">Снизу (Конец)</Button></PopoverTrigger>
+    <PopoverContent>
+      <PopoverHeader><PopoverTitle>Снизу справа</PopoverTitle></PopoverHeader>
+    </PopoverContent>
+  </Popover>
+</div>`;
 ---
 
 <DashboardLayout title="Popover">
     <div class="flex flex-col gap-10">
-        <!-- Заголовок страницы -->
         <div class="flex flex-col gap-2">
             <h1 class="text-3xl font-bold tracking-tight">Popover</h1>
-            <p class="text-muted-foreground text-lg">
-                Всплывающее окно, прикрепленное к триггеру. В отличие от Tooltip, внутрь можно помещать интерактивные
-                элементы: формы, кнопки, меню.
-            </p>
+            <p class="text-muted-foreground text-lg">Всплывающее окно, прикрепленное к триггеру.</p>
         </div>
 
-        <!-- 1. БАЗОВЫЙ ПОПОВЕР -->
         <ComponentDoc
             title="Базовый поповер"
             description="Простое всплывающее окно с заголовком, описанием и кнопками внутри."
@@ -108,9 +104,7 @@ import Button from '../../components/ui/Button.astro';
         >
             <div class="flex justify-center py-8">
                 <Popover>
-                    <PopoverTrigger>
-                        <Button variant="outline">Настройки панели</Button>
-                    </PopoverTrigger>
+                    <PopoverTrigger><Button variant="outline">Настройки панели</Button></PopoverTrigger>
                     <PopoverContent>
                         <PopoverHeader>
                             <PopoverTitle>Размер панели</PopoverTitle>
@@ -124,28 +118,24 @@ import Button from '../../components/ui/Button.astro';
                 </Popover>
             </div>
         </ComponentDoc>
-        <!-- 2. ПОПОВЕР С ФОРМОЙ -->
+
         <ComponentDoc
             title="С формой внутри"
-            description="Внутрь можно помещать инпуты. Чтобы кнопка закрыла поповер, вызовите метод hide() через x-on:click."
+            description="Внутрь можно помещать инпуты. Кнопка закроет поповер через метод hide()."
             code={formCode}
         >
             <div class="flex justify-center py-8">
                 <Popover>
-                    <PopoverTrigger>
-                        <Button variant="secondary">Создать команду</Button>
-                    </PopoverTrigger>
+                    <PopoverTrigger><Button variant="secondary">Создать команду</Button></PopoverTrigger>
                     <PopoverContent class="w-80">
                         <PopoverHeader>
                             <PopoverTitle>Новая команда</PopoverTitle>
                             <PopoverDescription>Введите название для новой рабочей группы.</PopoverDescription>
                         </PopoverHeader>
-
                         <div class="flex flex-col gap-2">
                             <Label for="team-name">Название</Label>
                             <Input id="team-name" placeholder="Например: Design Team" />
                         </div>
-
                         <div class="flex justify-end gap-2 mt-4">
                             <Button variant="outline" size="sm" x-on:click="hide()">Отмена</Button>
                             <Button size="sm" x-on:click="hide()">Создать</Button>
@@ -155,32 +145,29 @@ import Button from '../../components/ui/Button.astro';
             </div>
         </ComponentDoc>
 
-        <!-- 3. СТОРОНЫ И ВЫРАВНИВАНИЕ -->
         <ComponentDoc
-            title="Стороны и выравнивание (Side & Align)"
-            description="Используйте пропсы side (top, bottom, left, right) и align (start, center, end) для точного позиционирования."
+            title="Стороны и выравнивание"
+            description="Пропсы side и align для точного позиционирования."
             code={sidesCode}
         >
             <div class="flex flex-wrap gap-4 justify-center py-12">
                 <Popover side="top" align="center">
                     <PopoverTrigger><Button variant="outline">Сверху</Button></PopoverTrigger>
-                    <PopoverContent>
-                        <PopoverHeader><PopoverTitle>Сверху по центру</PopoverTitle></PopoverHeader>
-                    </PopoverContent>
+                    <PopoverContent
+                        ><PopoverHeader><PopoverTitle>Сверху по центру</PopoverTitle></PopoverHeader></PopoverContent
+                    >
                 </Popover>
-
                 <Popover side="bottom" align="start">
                     <PopoverTrigger><Button variant="outline">Снизу (Старт)</Button></PopoverTrigger>
-                    <PopoverContent>
-                        <PopoverHeader><PopoverTitle>Снизу слева</PopoverTitle></PopoverHeader>
-                    </PopoverContent>
+                    <PopoverContent
+                        ><PopoverHeader><PopoverTitle>Снизу слева</PopoverTitle></PopoverHeader></PopoverContent
+                    >
                 </Popover>
-
                 <Popover side="bottom" align="end">
                     <PopoverTrigger><Button variant="outline">Снизу (Конец)</Button></PopoverTrigger>
-                    <PopoverContent>
-                        <PopoverHeader><PopoverTitle>Снизу справа</PopoverTitle></PopoverHeader>
-                    </PopoverContent>
+                    <PopoverContent
+                        ><PopoverHeader><PopoverTitle>Снизу справа</PopoverTitle></PopoverHeader></PopoverContent
+                    >
                 </Popover>
             </div>
         </ComponentDoc>

@@ -13,16 +13,12 @@ export interface Props {
 
 const { size = "default", checked = false, disabled = false, name, value, class: className, ...rest } = Astro.props;
 
-// ВСЁ В REM! (1rem = 16px при 100% масштабе)
-const containerClasses =
-    size === "sm"
-        ? "w-[1.5rem] h-[0.875rem] p-[0.05rem]" // 24x14px, padding 2px
-        : "w-[2rem] h-[1.125rem] p-[0.1rem]"; // 32x18px, padding 2px
+const containerClasses = size === "sm" ? "w-[1.5rem] h-[0.875rem] p-[0.05rem]" : "w-[2rem] h-[1.125rem] p-[0.1rem]";
 
 const thumbClasses =
     size === "sm"
-        ? "size-[0.75rem] translate-x-0 group-data-[checked=true]:translate-x-[0.55rem]" // 12px, сдвиг на 8px (0.5rem)
-        : "size-[1rem] translate-x-0 group-data-[checked=true]:translate-x-[0.75rem]"; // 16px, сдвиг на 12px (0.75rem)
+        ? "size-[0.75rem] translate-x-0 group-data-[checked=true]:translate-x-[0.55rem]"
+        : "size-[1rem] translate-x-0 group-data-[checked=true]:translate-x-[0.75rem]";
 ---
 
 <button
@@ -31,8 +27,9 @@ const thumbClasses =
     class={cn(
         "group inline-flex shrink-0 items-center rounded-full border border-transparent transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
         containerClasses,
-        // Астро красит фон на сервере (никакого мигания при загрузке)
-        checked ? "bg-primary" : "bg-input dark:bg-input/80",
+        // ИСПРАВЛЕНО: Убрали x-bind:class. Используем data-[checked=true]: варианты Tailwind!
+        // Теперь tailwind-merge сможет легко перебить их, если ты передашь свой цвет.
+        "data-[checked=true]:bg-primary data-[checked=false]:bg-input dark:data-[checked=false]:bg-input/80",
         className,
     )}
     x-data={`{ checked: ${checked} }`}
@@ -40,7 +37,6 @@ const thumbClasses =
     x-bind:aria-checked="checked.toString()"
     data-checked={checked ? "true" : "false"}
     x-bind:data-checked="checked ? 'true' : 'false'"
-    x-bind:class="checked ? 'bg-primary' : 'bg-input dark:bg-input/80'"
     data-slot="switch"
     disabled={disabled}
     {...rest}

@@ -3,6 +3,7 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
 import ComponentDoc from "../../components/ComponentDoc.astro";
 import Checkbox from "../../components/ui/Checkbox.astro";
 import Label from "../../components/ui/Label.astro";
+import Button from "../../components/ui/Button.astro";
 
 const basicCode = `import Checkbox from '../../components/ui/Checkbox.astro';
 import Label from '../../components/ui/Label.astro';
@@ -49,6 +50,23 @@ import Label from '../../components/ui/Label.astro';
     <Label for="perm-3">Удаление (запрещено)</Label>
   </div>
 </div>`;
+
+const formCode = `import Checkbox from '../../components/ui/Checkbox.astro';
+import Label from '../../components/ui/Label.astro';
+import Button from '../../components/ui/Button.astro';
+
+<!-- Одно name="perms" и разные value. FormData.getAll() соберет все выбранные -->
+<form @submit.prevent="alert('Выбраны права: ' + new FormData($event.target).getAll('perms').join(', '))" class="flex flex-col gap-4 w-full max-w-sm">
+  <div class="flex items-center gap-3">
+    <Checkbox id="perm-read" name="perms" value="read" />
+    <Label for="perm-read">Чтение</Label>
+  </div>
+  <div class="flex items-center gap-3">
+    <Checkbox id="perm-write" name="perms" value="write" checked />
+    <Label for="perm-write">Запись</Label>
+  </div>
+  <Button type="submit" class="w-full">Отправить</Button>
+</form>`;
 ---
 
 <DashboardLayout title="Checkbox">
@@ -121,6 +139,28 @@ import Label from '../../components/ui/Label.astro';
                     <Label for="perm-3">Удаление (запрещено)</Label>
                 </div>
             </div>
+        </ComponentDoc>
+
+        <!-- 5. ОТПРАВКА В ФОРМУ -->
+        <ComponentDoc
+            title="Отправка в форму (Form Submit)"
+            description="Используем один name='perms' и разные value. При сабмите FormData.getAll() соберет массив выбранных значений."
+            code={formCode}
+        >
+            <form
+                @submit.prevent="alert('Выбраны права: ' + new FormData($event.target).getAll('perms').join(', '))"
+                class="flex flex-col gap-4 w-full max-w-sm"
+            >
+                <div class="flex items-center gap-3">
+                    <Checkbox id="perm-read" name="perms" value="read" />
+                    <Label for="perm-read">Чтение</Label>
+                </div>
+                <div class="flex items-center gap-3">
+                    <Checkbox id="perm-write" name="perms" value="write" checked />
+                    <Label for="perm-write">Запись</Label>
+                </div>
+                <Button type="submit" class="w-full mt-2">Отправить</Button>
+            </form>
         </ComponentDoc>
     </div>
 </DashboardLayout>

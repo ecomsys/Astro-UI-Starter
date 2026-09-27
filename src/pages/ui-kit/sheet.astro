@@ -163,28 +163,31 @@ import { ShoppingCart, Trash2 } from '@lucide/astro';
         >
             <div class="flex flex-wrap justify-center gap-4">
                 <Sheet>
-                    <SheetTrigger><Button variant="outline"><ArrowLeft class="size-4" /> Слева</Button></SheetTrigger>
+                    <SheetTrigger><Button variant="outline">Слева</Button></SheetTrigger>
                     <SheetContent side="left">
                         <SheetHeader><SheetTitle>Левая панель</SheetTitle></SheetHeader>
                     </SheetContent>
                 </Sheet>
 
+                <!-- side="top" -->
                 <Sheet>
-                    <SheetTrigger><Button variant="outline">Сверху <ArrowUp class="size-4" /></Button></SheetTrigger>
+                    <SheetTrigger><Button variant="outline">Сверху</Button></SheetTrigger>
                     <SheetContent side="top">
                         <SheetHeader><SheetTitle>Верхняя панель</SheetTitle></SheetHeader>
                     </SheetContent>
                 </Sheet>
 
+                <!-- side="bottom" -->
                 <Sheet>
-                    <SheetTrigger><Button variant="outline"><ArrowDown class="size-4" /> Снизу</Button></SheetTrigger>
+                    <SheetTrigger><Button variant="outline">Снизу</Button></SheetTrigger>
                     <SheetContent side="bottom">
                         <SheetHeader><SheetTitle>Нижняя панель</SheetTitle></SheetHeader>
                     </SheetContent>
                 </Sheet>
 
+                <!-- side="right" (по умолчанию) -->
                 <Sheet>
-                    <SheetTrigger><Button variant="outline">Справа <ArrowRight class="size-4" /></Button></SheetTrigger>
+                    <SheetTrigger><Button variant="outline">Справа</Button></SheetTrigger>
                     <SheetContent>
                         <SheetHeader><SheetTitle>Правая панель</SheetTitle></SheetHeader>
                     </SheetContent>
@@ -203,13 +206,16 @@ import { ShoppingCart, Trash2 } from '@lucide/astro';
                     <SheetTrigger>
                         <Button><ShoppingCart class="size-4" /> Корзина (2)</Button>
                     </SheetTrigger>
+                    <!-- Ограничиваем ширину через max-w-md (28rem) -->
                     <SheetContent class="w-full max-w-md">
                         <SheetHeader>
                             <SheetTitle>Ваша корзина</SheetTitle>
                             <SheetDescription>2 товара на сумму 4 500 ₽</SheetDescription>
                         </SheetHeader>
 
+                        <!-- Список товаров. Добавлен overflow-y-auto на случай длинного списка -->
                         <div class="flex flex-col gap-4 py-4 overflow-y-auto">
+                            <!-- Товар 1 -->
                             <div class="flex items-center gap-4 p-2 rounded-lg border">
                                 <div class="size-12 rounded-md bg-muted"></div>
                                 <div class="flex-1">
@@ -222,6 +228,7 @@ import { ShoppingCart, Trash2 } from '@lucide/astro';
                                 >
                             </div>
 
+                            <!-- Товар 2 -->
                             <div class="flex items-center gap-4 p-2 rounded-lg border">
                                 <div class="size-12 rounded-md bg-muted"></div>
                                 <div class="flex-1">

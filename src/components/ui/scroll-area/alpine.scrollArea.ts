@@ -14,6 +14,7 @@ export default (Alpine: Alpine) => {
         startScrollTop: 0,
         startScrollLeft: 0,
         observer: null as ResizeObserver | null,
+        isHovered: false, // <--- ДОБАВИЛИ СОСТОЯНИЕ ХОВЕРА
 
         init(this: any) {
             this.updateThumb();
@@ -24,15 +25,11 @@ export default (Alpine: Alpine) => {
             }
         },
 
-        // ВОТ ЛЕКАРСТВО ОТ УТЕЧКИ ПАМЯТИ!
-        // Alpine вызовет эту функцию, когда компонент будет удален из DOM
         destroy(this: any) {
             if (this.observer) {
                 this.observer.disconnect();
                 this.observer = null;
             }
-            // На всякий случай снимаем блокировку выделения текста,
-            // если компонент удалили прямо в процессе перетаскивания
             document.body.style.userSelect = "";
         },
 

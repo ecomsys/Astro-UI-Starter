@@ -12,7 +12,7 @@ import select from "./components/ui/select/alpine.select";
 import toaster from "./components/ui/sonner/alpine.toaster";
 import slider from "./components/ui/slider/alpine.slider";
 import carousel from "./components/ui/carousel/alpine.carousel";
-import resizible from "./components/ui/resizible/alpine.resizible";
+import resizable from "./components/ui/resizable/alpine.resizable";
 import navMenu from "./components/ui/navigation-menu/alpine.navMenu";
 import sidebar from "./components/ui/sidebar/alpine.sidebar";
 import menubar from "./components/ui/menubar/alpine.menubar";
@@ -25,6 +25,9 @@ import donutChart from "./components/ui/chart/alpine.donutChart";
 import lineChart from "./components/ui/chart/alpine.lineChart";
 
 import wysiwygEditor from "./components/ui/wysiwyg-editor/alpine.wysiwyg-editor";
+
+import combobox from "./components/ui/combobox/alpine.combobox";
+import drawer from "./components/ui/drawer/alpine.drawer";
 
 export default (Alpine: Alpine) => {
     Alpine.plugin(collapse);
@@ -40,13 +43,15 @@ export default (Alpine: Alpine) => {
     toaster(Alpine);
     slider(Alpine);
     carousel(Alpine);
-    resizible(Alpine);
+    resizable(Alpine);
     navMenu(Alpine);
     sidebar(Alpine);
     menubar(Alpine);
     command(Alpine);
     inputOTP(Alpine);
     calendar(Alpine);
+    combobox(Alpine);
+    drawer(Alpine);
 
     // графики
     barChart(Alpine);
@@ -56,26 +61,31 @@ export default (Alpine: Alpine) => {
     // редактор
     wysiwygEditor(Alpine);
 
-    // функция глобального управления скролом и оверлеем через альпину
+    // Функция глобального управления скролом и оверлеем
     Alpine.data("overlay", () => ({
         open: false,
-        scrollbarWidth: 0,
         closeTimeout: undefined as ReturnType<typeof setTimeout> | undefined,
-
-        init(this: any) {
-            this.scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-        },
 
         toggleScrollLock(this: any) {
             clearTimeout(this.closeTimeout);
+            const el = document.documentElement; // Работаем с <html>, так как скролл обычно на нем
 
             if (this.open) {
-                document.body.style.overflow = "hidden";
-                document.body.style.paddingRight = `${this.scrollbarWidth}px`;
+                // 1. Считаем ширину скроллбара РОВНО в момент открытия
+                const scrollbarWidth = window.innerWidth - el.clientWidth;
+
+                // 2. Блокируем скролл
+                el.style.overflow = "hidden";
+
+                // 3. Компенсируем исчезнувший скроллбар паддингом, чтобы контент не прыгнул
+                if (scrollbarWidth > 0) {
+                    el.style.paddingRight = `${scrollbarWidth}px`;
+                }
             } else {
+                // 4. При закрытии ждем 75мс (пока анимация доиграет) и снимаем блокировку
                 this.closeTimeout = setTimeout(() => {
-                    document.body.style.overflow = "";
-                    document.body.style.paddingRight = "";
+                    el.style.overflow = "";
+                    el.style.paddingRight = "";
                 }, 75);
             }
         },
