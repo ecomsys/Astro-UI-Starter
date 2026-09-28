@@ -1,0 +1,112 @@
+---
+import { cn } from "../../../lib/utils";
+const { class: className, ...rest } = Astro.props;
+---
+
+<!-- 
+  Профессиональный движок слайдера на Transform.
+  Никакого нативного скролла, только плавная анимация.
+-->
+<div
+    x-data="{ 
+    translate: 0,
+    startX: 0,
+    lastX: 0,
+    isDragging: false,
+    maxScroll: 0,
+    hasDragged: false,
+
+    init() {
+      // Следим за изменением размера, чтобы слайдер не уезжало в пустоту
+      const resizeObserver = new ResizeObserver(() => this.updateBounds());
+      resizeObserver.observe(this.$refs.track);
+      this.updateBounds();
+    },
+
+    updateBounds() {
+      this.maxScroll = this.$refs.track.scrollWidth - this.$refs.container.offsetWidth;
+      if (this.maxScroll < 0) this.maxScroll = 0;
+      if (this.translate < -this.maxScroll) this.translate = -this.maxScroll;
+    },
+
+    startDrag(e) {
+      this.isDragging = true;
+      this.hasDragged = false;
+      this.startX = e.clientX;
+      this.lastX = this.translate;
+      this.$refs.track.style.transition = 'none';
+    },
+
+    onDrag(e) {
+      if (!this.isDragging) return;
+      const diff = e.clientX - this.startX;
+      if (Math.abs(diff) > 5) this.hasDragged = true;
+      
+      let newTranslate = this.lastX + diff;
+
+      // Эффект сопротивления на краях (резинка)
+      if (newTranslate > 0) {
+        newTranslate = newTranslate * 0.3;
+      } else if (newTranslate < -this.maxScroll) {
+        newTranslate = -this.maxScroll + (newTranslate + this.maxScroll) * 0.3;
+      }
+
+      this.translate = newTranslate;
+    },
+
+    stopDrag() {
+      if (!this.isDragging) return;
+      this.isDragging = false;
+      this.$refs.track.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+      
+      // Возвращаем слайдер в границы, если утащили за край
+      if (this.translate > 0) this.translate = 0;
+      if (this.translate < -this.maxScroll) this.translate = -this.maxScroll;
+    },
+
+    onWheel(e) {
+      // Крутишь колесико — слайдер едет вбок
+      this.updateBounds();
+      let delta = e.deltaY;
+      let newTranslate = this.translate - delta;
+
+      if (newTranslate > 0) newTranslate = 0;
+      if (newTranslate < -this.maxScroll) newTranslate = -this.maxScroll;
+
+      this.$refs.track.style.transition = 'transform 0.3s ease-out';
+      this.translate = newTranslate;
+    },
+
+    blockClick(e) {
+      // Если потянули слайдер — отменяем клик по кнопке внутри
+      if (this.hasDragged) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.hasDragged = false;
+      }
+    }
+  }"
+    x-ref="container"
+    x-on:wheel.prevent="onWheel($event)"
+    data-slot="attachment-group"
+    class={cn(
+        "relative w-full overflow-hidden py-1 [mask-image:linear-gradient(to_right,transparent,black_1rem,black_calc(100%-1rem),transparent)]",
+        className,
+    )}
+    {...rest}
+>
+    <!-- Дорожка слайдера -->
+    <div
+        x-ref="track"
+        x-on:pointerdown="startDrag($event)"
+        x-on:pointermove="onDrag($event)"
+        x-on:pointerup="stopDrag()"
+        x-on:pointerleave="stopDrag()"
+        x-on:dragstart.prevent
+        x-on:click.capture="blockClick($event)"
+        x-bind:style="`transform: translateX(${translate}px)`"
+        class="flex w-fit gap-3 cursor-grab active:cursor-grabbing will-change-transform"
+    >
+        <slot />
+    </div>
+</div>
